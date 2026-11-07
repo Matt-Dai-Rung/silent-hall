@@ -81,6 +81,10 @@ main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:18
 .dock .dclock span{font-size:.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock .dclock b{font-size:1.35rem;font-weight:500;font-variant-numeric:tabular-nums}
 .dock button{padding:9px 12px;white-space:nowrap}
+/* iPhone 的狀態列：往下捲時用底色蓋住，內容不會跑到時間和電量底下 */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+html,body{overflow-x:clip}
+footer span{overflow-wrap:anywhere}
 .nick{display:flex;align-items:center;gap:6px}
 .nick input[type=text]{width:9em;padding:4px 10px;font-size:.85rem}
 @media (max-width:820px){
@@ -96,6 +100,11 @@ main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:18
   body.sheet .altar{transform:none;visibility:visible;transition:transform .3s ease}
   body.sheet .scrim{display:block}
   .sheet-close{display:inline-block;align-self:flex-end}
+  /* iPhone 點到小於 16px 的輸入框會自動放大整頁，手機上一律用 16px */
+  input[type=text],input[type=password],textarea,select{font-size:16px!important}
+  body .dock{gap:6px}
+  body .dock button{padding:9px 10px}
+  body .dock .dclock b{font-size:1.2rem}
   /* 手機上把 3D 畫面往上提：精簡標題、標籤和殿名列改成可左右滑 */
   h1{font-size:1.5rem}
   body .sub,body #hallHint,body .custom{display:none}
@@ -1489,7 +1498,10 @@ footer button{font-size:.8rem;padding:2px 8px}
     function resize() {
       const w = stage.clientWidth, h = stage.clientHeight;
       if (!w || !h) return;
-      renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix();
+      renderer.setSize(w, h, false); cam.aspect = w / h;
+      /* 直式手機畫面窄，視角放寬、鏡頭拉遠一點，比較不擠 */
+      cam.fov = w / h < 1 ? 64 : 48; if (w / h < 1 && camDist === 7) camDist = 8.5;
+      cam.updateProjectionMatrix();
     }
     if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); else addEventListener('resize', resize);
     resize();
