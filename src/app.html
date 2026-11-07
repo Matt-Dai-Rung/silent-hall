@@ -1565,7 +1565,7 @@ footer button{font-size:.8rem;padding:2px 8px}
   }
   async function supabaseRoom() {
     if (!CFG || !CFG.supabaseUrl || !CFG.supabaseAnonKey) return null;
-    if (!window.supabase) await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
+    if (!window.supabase) await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js');
     const client = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: false } });
     const myId = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g, '').slice(0, 16);
     const ch = client.channel(CFG.channel || 'silent-hall', { config: { presence: { key: myId }, broadcast: { self: true } } });
