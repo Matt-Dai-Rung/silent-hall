@@ -1,0 +1,1670 @@
+<meta charset="utf-8">
+<title>靜默專注殿</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 一屏空間。左邊是同一殿的座席（只看得到有人在、還剩多少），右邊是自己的香案；手機上下堆疊。場景只換外觀與用詞，機制相同 */
+:root{
+  --bg:#E6EAE2; --panel:#F2F4EF; --ink:#1E251D; --muted:#5C6759; --line:#C6CEC0;
+  --moss:#4C6A47; --brass:#94691A; --ember:#D47A22; --cushion:#C0C8B8; --cushion-on:#7D8F6E;
+  --stick-w:3px; --seat-r:50%; --seat-w:52px; --seat-h:20px;
+  --robe0:#B0713A; --robe1:#6C7D58; --robe2:#58708F; --robe3:#8C5A6C; --robe4:#8F8B7C;
+  --skin0:#F1D8BE; --skin1:#D4A47A; --skin2:#8C6244; --hair:#3A302A;
+  --font-display:"LXGW WenKai TC","Kaiti TC","STKaiti","DFKai-SB",serif;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111714; --panel:#18201B; --ink:#DCE2D5; --muted:#8E9989; --line:#2A342E;
+  --moss:#8DAE80; --brass:#D3A64C; --ember:#F09A45; --cushion:#252F29; --cushion-on:#3D4C3D; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#111714; --panel:#18201B; --ink:#DCE2D5; --muted:#8E9989; --line:#2A342E;
+  --moss:#8DAE80; --brass:#D3A64C; --ember:#F09A45; --cushion:#252F29; --cushion-on:#3D4C3D; color-scheme:dark;
+}
+/* 場景：山中小屋（蠟燭、木凳） */
+:root[data-scene="cabin"]{--bg:#E9E5DF;--panel:#F4F1EC;--line:#D3CABD;--moss:#8A4F2C;--brass:#E9DFCB;--ember:#EE9B32;--cushion:#CFC4B4;--cushion-on:#8E6C49;--stick-w:9px;--seat-r:6px;--seat-w:44px;--seat-h:14px}
+@media (prefers-color-scheme: dark){:root[data-scene="cabin"]:not([data-theme="light"]){--bg:#17130F;--panel:#201A15;--line:#3A3027;--moss:#D9935F;--brass:#E6DCC6;--ember:#FFB04A;--cushion:#2E2620;--cushion-on:#6B5038}}
+:root[data-scene="cabin"][data-theme="dark"]{--bg:#17130F;--panel:#201A15;--line:#3A3027;--moss:#D9935F;--brass:#E6DCC6;--ember:#FFB04A;--cushion:#2E2620;--cushion-on:#6B5038}
+/* 場景：深夜圖書館（檯燈、書桌） */
+:root[data-scene="library"]{--bg:#E3E6EC;--panel:#F1F3F7;--line:#C5CCD8;--moss:#34507A;--brass:#C9A23F;--ember:#F2CF5B;--cushion:#C3CAD6;--cushion-on:#5D6F8E;--stick-w:5px;--seat-r:3px;--seat-w:56px;--seat-h:12px}
+@media (prefers-color-scheme: dark){:root[data-scene="library"]:not([data-theme="light"]){--bg:#0E121B;--panel:#151B27;--line:#283246;--moss:#8FB0E0;--brass:#D9B65A;--ember:#FFE07A;--cushion:#212A3A;--cushion-on:#3E5070}}
+:root[data-scene="library"][data-theme="dark"]{--bg:#0E121B;--panel:#151B27;--line:#283246;--moss:#8FB0E0;--brass:#D9B65A;--ember:#FFE07A;--cushion:#212A3A;--cushion-on:#3E5070}
+/* 場景：禪意茶室（線香、茶席） */
+:root[data-scene="tea"]{--bg:#E7E9DC;--panel:#F3F4EC;--line:#CDD1BC;--moss:#5D7A35;--brass:#7E5F38;--ember:#C98A3A;--cushion:#C9CEB4;--cushion-on:#8A9A62;--stick-w:2px;--seat-r:3px;--seat-w:48px;--seat-h:18px}
+@media (prefers-color-scheme: dark){:root[data-scene="tea"]:not([data-theme="light"]){--bg:#12150E;--panel:#1A1E14;--line:#2F3524;--moss:#A9C47A;--brass:#B58E5C;--ember:#E3A658;--cushion:#262B1D;--cushion-on:#4A5634}}
+:root[data-scene="tea"][data-theme="dark"]{--bg:#12150E;--panel:#1A1E14;--line:#2F3524;--moss:#A9C47A;--brass:#B58E5C;--ember:#E3A658;--cushion:#262B1D;--cushion-on:#4A5634}
+/* 場景：紙箱公園（限時彩蛋：草地、紙箱、夕陽） */
+:root[data-scene="park"]{--bg:#E3EADB;--panel:#F1F4EC;--line:#C8D2BC;--moss:#B8622A;--brass:#C49A64;--ember:#F2A25C;--cushion:#CFC6B0;--cushion-on:#C49A64;--stick-w:6px;--seat-r:3px;--seat-w:54px;--seat-h:10px}
+@media (prefers-color-scheme: dark){:root[data-scene="park"]:not([data-theme="light"]){--bg:#15171F;--panel:#1C1F29;--line:#2E3342;--moss:#F2A25C;--brass:#C49A64;--ember:#FFB36B;--cushion:#2A2E3A;--cushion-on:#7A5F3E}}
+:root[data-scene="park"][data-theme="dark"]{--bg:#15171F;--panel:#1C1F29;--line:#2E3342;--moss:#F2A25C;--brass:#C49A64;--ember:#FFB36B;--cushion:#2A2E3A;--cushion-on:#7A5F3E}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;transition:background .5s;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;color:var(--muted);margin:0}
+h1{font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1.2;margin:0;letter-spacing:.06em;text-wrap:balance}
+.sub{color:var(--muted);margin:2px 0 0;max-width:46ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.85rem;background:var(--panel);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip b{color:var(--moss)}
+.chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:6px;vertical-align:1px}
+.chip[data-c="on"] .dot{background:var(--moss)}
+.chip[data-c="wait"] .dot{background:var(--brass)}
+select{font:inherit;font-size:.85rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.groupbar{border:1px solid var(--moss);border-radius:var(--r);padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;
+  background:color-mix(in srgb,var(--moss) 9%,var(--panel))}
+.groupbar strong{font-family:var(--font-display);font-size:1.05rem;color:var(--moss)}
+.groupbar .gtxt{font-variant-numeric:tabular-nums;min-width:0}
+main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:18px}
+@media (max-width:820px){main{grid-template-columns:minmax(0,1fr)}}
+section,aside{min-width:0}
+.hall{border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 70%,transparent),transparent 70%)}
+.hall-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 16px}
+.hall h2,.altar h2{font-family:var(--font-display);font-size:1.25rem;margin:0;letter-spacing:.05em}
+.hint{color:var(--muted);font-size:.85rem;margin:0}
+.halls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.halls button{border-radius:999px;padding:4px 12px;font-size:.85rem;font-variant-numeric:tabular-nums}
+.halls button[aria-current="true"]{border-color:var(--moss);color:var(--moss);font-weight:700;background:color-mix(in srgb,var(--moss) 8%,var(--bg))}
+.halls button span{color:var(--muted);font-weight:400;margin-left:4px}
+.custom{display:flex;gap:6px;align-items:center}
+.custom input[type=text]{width:9em;padding:4px 10px;border-radius:999px;font-size:.85rem}
+.custom button{border-radius:999px;padding:4px 12px;font-size:.85rem}
+.stage{position:relative;height:clamp(340px,58vh,580px);border-radius:8px;overflow:hidden;background:#1a120c}
+canvas.world{display:block;width:100%;height:100%;touch-action:none;outline:none;cursor:grab}
+canvas.world:focus-visible{outline:2px solid var(--moss);outline-offset:-2px}
+.stage .ohint{position:absolute;top:10px;left:10px;max-width:calc(100% - 20px);margin:0;padding:4px 10px;border-radius:8px;background:rgba(0,0,0,.42);font-size:.78rem;color:#fff;pointer-events:none}
+.joy{position:absolute;left:14px;bottom:14px;width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);touch-action:none}
+.joy .knob{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:rgba(255,255,255,.55);pointer-events:none}
+.rot{position:absolute;right:14px;bottom:14px;display:flex;gap:8px}
+.rot button{width:40px;height:40px;border-radius:50%;padding:0;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:1.1rem}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:14px 8px;padding:6px 0}
+.seat{position:relative;display:flex;flex-direction:column;align-items:center;height:118px;justify-content:flex-end;padding-bottom:4px}
+.incense{position:absolute;right:0;bottom:8px;display:flex;flex-direction:column;align-items:center}
+.stick{position:relative;width:var(--stick-w);height:48px;opacity:0;transition:opacity .6s}
+/* 人物：坐姿（入定、暫歇）與站姿（在殿內但還沒點香） */
+.fig{position:relative;z-index:1;width:40px;height:52px;margin-bottom:-10px;overflow:visible;transition:opacity .6s}
+.fig .robe{fill:var(--robe,var(--robe0))}
+.fig .lap{fill:color-mix(in srgb,var(--robe,var(--robe0)) 72%,#000)}
+.fig .head,.fig .hands{fill:var(--skin,var(--skin0))}
+.fig .hair{fill:var(--hair)}
+:root[data-scene="temple"] .fig .hair{display:none}
+.seat[data-s="idle"] .fig .seated,.seat:not([data-s="idle"]) .fig .standing{display:none}
+.seat[data-s="rest"] .fig{opacity:.55}
+.seat[data-s="rest"] .fig .hands{display:none}
+.seat[data-k="empty"] .fig{display:none}
+.seat[data-s="sit"] .fig .seated{transform-origin:50% 100%;animation:breathe 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.01,1.025)}}
+.seat.enter .fig{animation:walkin 1.5s ease-out both;animation-delay:var(--ed,0s)}
+@keyframes walkin{0%{opacity:0;transform:translateY(28px)}20%{opacity:1;transform:translateY(20px)}35%{transform:translateY(14px)}45%{transform:translateY(16px)}60%{transform:translateY(7px)}70%{transform:translateY(9px)}100%{opacity:1;transform:none}}
+.arrive{font-size:.85rem;color:var(--moss);margin:0;min-height:1.4em;transition:opacity .6s;min-width:0}
+.hallbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.hallbar button{border-radius:999px;padding:4px 14px;font-size:.85rem}
+.host{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:.85rem;color:var(--muted)}
+.host button{font-size:.85rem;padding:4px 12px}
+/* 致意：座位亮起光暈，人物輕輕低頭 */
+.seat::after{content:"";position:absolute;left:50%;top:26px;width:60px;height:60px;margin-left:-30px;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,color-mix(in srgb,var(--ember) 40%,transparent),transparent 70%)}
+.seat.greet::after{animation:halo 2.4s ease-out}
+.seat.greet .fig .seated,.seat.greet .fig .standing{transform-origin:50% 100%;animation:nod 2.4s ease-in-out}
+@keyframes halo{0%{opacity:0;transform:scale(.6)}25%{opacity:1}100%{opacity:0;transform:scale(1.35)}}
+@keyframes nod{0%,100%{transform:none}35%,55%{transform:translateY(3px) scaleY(.93)}}
+.look{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.swatches{display:flex;gap:6px}
+.sw{width:22px;height:22px;border-radius:50%;padding:0;border:2px solid var(--panel);box-shadow:0 0 0 1px var(--line)}
+.sw[aria-checked="true"]{box-shadow:0 0 0 2px var(--moss)}
+.stick .burn{position:absolute;left:0;bottom:0;width:100%;height:calc(var(--left,1)*100%);background:var(--brass);border-radius:2px;transition:height 1s linear}
+:root[data-scene="cabin"] .stick .burn,:root[data-scene="cabin"] .big .burn{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 15%,transparent)}
+.stick .ember{position:absolute;left:50%;margin-left:-3.5px;bottom:calc(var(--left,1)*100% - 3px);width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 8px 2px color-mix(in srgb,var(--ember) 60%,transparent);transition:bottom 1s linear}
+:root[data-scene="cabin"] .stick .ember{height:12px;border-radius:50% 50% 50% 50%/70% 70% 30% 30%;bottom:calc(var(--left,1)*100% + 1px)}
+:root[data-scene="library"] .stick .ember{width:22px;height:10px;margin-left:-11px;border-radius:12px 12px 2px 2px;box-shadow:0 6px 14px 3px color-mix(in srgb,var(--ember) 45%,transparent)}
+.stick .smoke{position:absolute;left:50%;margin-left:-7px;bottom:calc(var(--left,1)*100% + 4px);width:15px;height:28px;border-left:1.5px solid color-mix(in srgb,var(--muted) 45%,transparent);border-radius:50%;opacity:0;animation:smoke 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
+:root[data-scene="library"] .stick .smoke{display:none}
+@keyframes smoke{0%{opacity:0;transform:translateY(4px) scaleX(1)}35%{opacity:.8}100%{opacity:0;transform:translateY(-16px) scaleX(-1)}}
+.censer{width:14px;height:6px;border-radius:0 0 7px 7px;background:var(--line)}
+.cushion{width:var(--seat-w);height:var(--seat-h);border-radius:var(--seat-r);background:var(--cushion);transition:background .6s}
+.tag{position:absolute;top:0;font-size:.72rem;color:var(--muted);letter-spacing:.08em}
+.seat[data-s="sit"] .stick{opacity:1}
+.seat[data-s="sit"] .cushion{background:var(--cushion-on)}
+.seat[data-s="rest"] .cushion{background:color-mix(in srgb,var(--cushion-on) 45%,var(--cushion))}
+.seat[data-g="1"] .censer{background:var(--moss)}
+.seat[data-k="me"] .cushion{outline:2px solid var(--moss);outline-offset:3px}
+.seat[data-k="me"] .tag{color:var(--moss);font-weight:700}
+.seat[data-k="empty"] .censer{opacity:.5}
+.seat[data-k="demo"] .cushion{background-image:repeating-linear-gradient(135deg,transparent 0 5px,color-mix(in srgb,var(--panel) 35%,transparent) 5px 7px)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.82rem;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:16px;height:8px;border-radius:50%;vertical-align:1px;margin-right:6px;background:var(--cushion-on)}
+.legend i.rest{background:color-mix(in srgb,var(--cushion-on) 45%,var(--cushion))}
+.legend i.grp{background:var(--moss);height:5px;border-radius:0 0 6px 6px}
+.legend i.demo{background:var(--cushion-on);background-image:repeating-linear-gradient(135deg,transparent 0 4px,color-mix(in srgb,var(--panel) 45%,transparent) 4px 6px)}
+.more{font-size:.85rem;color:var(--muted)}
+label.toggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.altar{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:16px}
+.carry{border-left:3px solid var(--brass);padding:6px 10px;font-size:.88rem;background:color-mix(in srgb,var(--brass) 10%,transparent);display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+.carry button{flex:none}
+.burner{display:flex;gap:18px;align-items:flex-end}
+.big{position:relative;width:calc(var(--stick-w) * 1.7);height:150px;flex:none;margin-left:18px}
+.big .burn{position:absolute;bottom:0;left:0;width:100%;height:calc(var(--left,1)*100%);background:var(--brass);border-radius:3px;transition:height 1s linear}
+.big .ember{position:absolute;left:50%;margin-left:-5.5px;bottom:calc(var(--left,1)*100% - 5px);width:11px;height:11px;border-radius:50%;background:var(--ember);box-shadow:0 0 14px 4px color-mix(in srgb,var(--ember) 55%,transparent);transition:bottom 1s linear}
+:root[data-scene="cabin"] .big .ember{height:18px;border-radius:50% 50% 50% 50%/70% 70% 30% 30%;bottom:calc(var(--left,1)*100% + 1px)}
+:root[data-scene="library"] .big .ember{width:36px;height:16px;margin-left:-18px;border-radius:18px 18px 3px 3px;box-shadow:0 10px 24px 6px color-mix(in srgb,var(--ember) 40%,transparent)}
+.big .smoke{position:absolute;left:50%;margin-left:-12px;bottom:calc(var(--left,1)*100% + 6px);width:24px;height:44px;border-left:2px solid color-mix(in srgb,var(--muted) 45%,transparent);border-radius:50%;animation:smoke 5s ease-in-out infinite}
+:root[data-scene="library"] .big .smoke{display:none}
+.big .base{position:absolute;bottom:-12px;left:50%;margin-left:-20px;width:40px;height:12px;border-radius:0 0 14px 14px;background:var(--line)}
+.big[data-s="idle"] .ember,.big[data-s="idle"] .smoke,.big[data-s="rest"] .ember,.big[data-s="rest"] .smoke{opacity:0}
+.big[data-s="idle"] .burn,.big[data-s="rest"] .burn{opacity:.25}
+.readout{display:flex;flex-direction:column;gap:2px;min-width:0}
+.state{font-family:var(--font-display);font-size:1.15rem}
+.clock{font-size:2.6rem;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:.02em}
+.intent-show{color:var(--muted);font-size:.88rem;overflow-wrap:anywhere}
+fieldset{border:0;padding:0;margin:0;display:flex;gap:8px;flex-wrap:wrap}
+legend{font-size:.82rem;color:var(--muted);margin-bottom:6px;padding:0}
+.dur input{position:absolute;opacity:0;pointer-events:none}
+.dur label{border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.9rem;background:var(--bg)}
+.dur input:checked+label{border-color:var(--moss);color:var(--moss);font-weight:700}
+.dur input:focus-visible+label{outline:2px solid var(--moss);outline-offset:2px}
+.dur input:disabled+label{opacity:.5;cursor:default}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.82rem;color:var(--muted)}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+textarea{min-height:72px;resize:vertical}
+input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--moss);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 14px}
+button.primary{background:var(--moss);border-color:var(--moss);color:var(--panel);font-weight:700;letter-spacing:.06em}
+button.quiet{background:transparent;border-color:transparent;color:var(--muted);padding:4px 8px}
+button:disabled{opacity:.5;cursor:default}
+.beads{display:flex;gap:14px;align-items:center}
+.beads svg{width:112px;height:112px;flex:none}
+.beads circle{fill:var(--cushion);transition:fill .3s}
+.beads circle.on{fill:var(--brass)}
+:root[data-scene="cabin"] .beads circle.on{fill:var(--cushion-on)}
+.beads circle.guru{fill:var(--moss)}
+.beadtxt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.beadnum{font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1}
+.beadnum small{font-size:.85rem;color:var(--muted)}
+hr{border:0;border-top:1px solid var(--line);margin:0}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.stats b{color:var(--ink);font-size:1rem}
+.overlay{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:20}
+.dialog{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;max-width:440px;width:100%;display:flex;flex-direction:column;gap:14px}
+.dialog h2{font-family:var(--font-display);margin:0;font-size:1.4rem}
+.bowstep{font-family:var(--font-display);font-size:1.1rem;color:var(--moss);min-height:1.6em}
+.bowdots{display:flex;gap:8px}
+.bowdots span{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--moss)}
+.bowdots span.on{background:var(--moss)}
+.summary{white-space:pre-wrap;font-size:.9rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;margin:0}
+footer{color:var(--muted);font-size:.8rem;max-width:72ch;display:flex;flex-direction:column;gap:6px}
+footer button{font-size:.8rem;padding:2px 8px}
+#hostPass{width:10em;font-size:.8rem;padding:2px 8px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow" id="eyebrow" hidden>靜默專注殿</p>
+      <h1 id="h1">靜默專注殿</h1>
+      <p class="sub" id="sub">大家一起在場，誰也不用開口。點一炷香，做完一件事撥一顆珠。</p>
+    </div>
+    <div class="chips">
+      <span class="chip" id="chipCount">此刻 <b>1</b> 人靜坐</span>
+      <span class="chip" id="chipNext">下一場共修 —</span>
+      <span class="chip" id="chipConn" data-c="wait"><span class="dot"></span>連線中</span>
+      <select id="scene" aria-label="場景">
+        <option value="temple">場景：佛殿</option>
+        <option value="cabin">場景：山中小屋</option>
+        <option value="library">場景：深夜圖書館</option>
+        <option value="tea">場景：禪意茶室</option>
+        <option value="park">場景：紙箱公園（限時）</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="groupbar" id="groupBar" hidden>
+    <div class="gtxt"><strong id="gName">晨坐</strong> <span id="gTxt"></span></div>
+    <div class="row">
+      <button class="primary" id="btnGroup">一起入定</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hall" aria-label="座席">
+      <div class="hall-head">
+        <h2 id="hallTitle">殿內</h2>
+        <p class="hint" id="hallHint">只看得到有人在、還剩多少。看不到是誰，也看不到在做什麼。</p>
+      </div>
+      <div class="hallbar">
+        <p class="arrive" id="arrive" aria-live="polite"></p>
+        <button id="btnGreet">合掌致意</button>
+      </div>
+      <div class="halls" id="halls" role="group" aria-label="選擇殿"></div>
+      <form class="custom" id="customForm">
+        <input type="text" id="customName" maxlength="12" placeholder="自訂殿名" aria-label="自訂殿名">
+        <button type="submit">進入</button>
+      </form>
+      <div class="stage" id="stage" hidden>
+        <p class="ohint">方向鍵／WASD 或左下搖桿走動 · 拖曳畫面轉視角 · 點地板走過去 · 按「入定」會自己走到空位坐下</p>
+        <div class="joy" id="joy" aria-hidden="true"><span class="knob" id="knob"></span></div>
+        <div class="rot"><button id="rotL" aria-label="視角向左轉">⟲</button><button id="rotR" aria-label="視角向右轉">⟳</button></div>
+      </div>
+      <div class="seats" id="seats"></div>
+      <div class="legend">
+        <span><i></i><span id="lgSit">靜坐中（香在燒）</span></span>
+        <span><i class="rest"></i>暫歇</span>
+        <span><i class="grp"></i>正在共修</span>
+        <span id="lgDemo"><i class="demo"></i>示範同修（不是真人）</span>
+        <span class="more" id="more" hidden></span>
+        <label class="toggle"><input type="checkbox" id="demoToggle"> 顯示示範同修</label>
+      </div>
+      <div class="host" id="hostBox" hidden>
+        <span>主持人：為這一殿開一場臨時共修，30 秒後開始</span>
+        <div class="row">
+          <button data-min="15">15 分鐘</button>
+          <button data-min="25">25 分鐘</button>
+          <button data-min="50">50 分鐘</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="altar" aria-label="我的位置">
+      <div class="carry" id="carry" hidden>
+        <div><strong>昨天留給今天的：</strong><span id="carryText"></span></div>
+        <button class="quiet" id="carryClose">收起</button>
+      </div>
+      <div class="carry" id="notice" hidden>
+        <div id="noticeTxt"></div>
+        <button class="quiet" id="noticeClose">知道了</button>
+      </div>
+
+      <h2 id="altarTitle">我的香案</h2>
+      <div class="look">
+        <span class="hint">我的模樣</span>
+        <div class="swatches" id="robeSw" role="radiogroup" aria-label="衣服顏色"></div>
+        <div class="swatches" id="skinSw" role="radiogroup" aria-label="膚色"></div>
+      </div>
+      <div class="burner">
+        <div class="big" id="big" data-s="idle"><i class="burn"></i><b class="ember"></b><span class="smoke"></span><span class="base"></span></div>
+        <div class="readout">
+          <span class="state" id="stateTxt">尚未入殿</span>
+          <span class="clock" id="clock">25:00</span>
+          <span class="intent-show" id="intentShow"></span>
+        </div>
+      </div>
+
+      <fieldset class="dur" id="dur">
+        <legend id="durLegend">一炷香多長</legend>
+        <input type="radio" name="dur" id="d25" value="25" checked><label for="d25">25 分</label>
+        <input type="radio" name="dur" id="d50" value="50"><label for="d50">50 分</label>
+        <input type="radio" name="dur" id="d90" value="90"><label for="d90">90 分</label>
+      </fieldset>
+
+      <div class="field">
+        <label for="intent" id="intentLabel">這炷香要做什麼（只存在你的瀏覽器，不會給任何人看）</label>
+        <input type="text" id="intent" maxlength="60" placeholder="例如：把週報第二段寫完">
+      </div>
+
+      <div class="row">
+        <button class="primary" id="btnStart">合掌入定</button>
+        <button id="btnBlank" hidden>只是發呆</button>
+        <button id="btnStop" hidden>提前出定</button>
+        <button class="quiet" id="btnSound" aria-pressed="false">開啟環境音</button>
+      </div>
+      <label class="toggle hint"><input type="checkbox" id="autoGroup"> 共修時間到了自動入定</label>
+
+      <hr>
+
+      <div class="beads">
+        <svg viewBox="0 0 120 120" id="beadSvg" aria-hidden="true"></svg>
+        <div class="beadtxt">
+          <span class="beadnum"><span id="beadN">0</span> <small id="beadOf">/ 108 顆</small></span>
+          <span class="hint" id="beadRound">做完一件事，就撥一顆。</span>
+          <div class="row">
+            <button id="btnBead">撥一顆</button>
+            <button class="quiet" id="btnUnbead">退一顆</button>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="stats">
+        <span><span id="stLabel">今日炷香</span> <b id="stSticks">0</b></span>
+        <span>專注 <b id="stMins">0</b> 分</span>
+        <span><span id="stBeadLabel">念珠</span> <b id="stBeads">0</b></span>
+      </div>
+      <button id="btnEnd">收工三拜</button>
+    </aside>
+  </main>
+
+  <footer>
+    <span>這是雛型。同一殿裡的人數、香的進度和共修都是即時同步的；你寫的「要做什麼」、計數和收工筆記只存在你自己的瀏覽器。每天共修：09:00 晨坐、13:30 午坐、18:00 晚收，各 25 分鐘，大家一起點、一起收。場景只改變你自己看到的樣子。</span>
+    <span>同步給其他人的只有：在哪一殿、坐著或站著、位置、香還剩多少、衣服和膚色。不會傳送名字，也不會傳送你寫的內容、念珠數或收工筆記。</span>
+    <span id="hostLogin" hidden>主持人？ <input type="password" id="hostPass" aria-label="主持人密語" placeholder="主持人密語" autocomplete="off"> <button id="hostGo">確認</button> <span id="hostMsg"></span></span>
+    <span>想先試共修？ <button id="btnTest">一分鐘後開一場三分鐘的試玩共修（只有你看得到）</button></span>
+  </footer>
+</div>
+
+<div class="overlay" id="endOv" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+    <h2 id="endTitle">收工三拜</h2>
+    <div class="field">
+      <label for="carryIn">明天要接著做的（明天一進來就會看到）</label>
+      <textarea id="carryIn" placeholder="例如：客戶簡報第 5–8 頁還沒排版"></textarea>
+    </div>
+    <div class="bowdots" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="bowstep" id="bowStep">準備好了就拜下去。</div>
+    <pre class="summary" id="summary" hidden></pre>
+    <div class="row">
+      <button class="primary" id="btnBow">一拜</button>
+      <button id="btnCopy" hidden>複製今日小結</button>
+      <button class="quiet" id="btnEndClose">先不要</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const SEATS = 24, REST_MS = 5 * 60000, GROUP_MIN = 25, GROUP_WINDOW = 15 * 60000;
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem('jz.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('jz.' + k, JSON.stringify(v)); } catch (e) {} }
+  };
+  const today = () => new Date().toLocaleDateString('sv');
+  const fmt = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+  const hhmm = t => { const d = new Date(t); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+
+  /* ---------- 場景用詞 ---------- */
+  const SCENES = {
+    temple: { name: '靜默專注殿', place: '殿內', altar: '我的香案', start: '合掌入定', stop: '提前出定', dur: '一炷香多長', thing: '這炷香', sitting: '靜坐中', out: '香已燃盡，起來走走', again: '休息夠了，再點一炷？', idle: '尚未入殿', stat: '今日炷香', bead: '念珠', beadU: '顆', beadBtn: '撥一顆', beadUn: '退一顆', beadSet: '串', beadHint: '做完一件事，就撥一顆。', end: '收工三拜', steps: ['一拜', '二拜', '三拜'], bows: ['一拜：謝謝今天的自己。', '二拜：沒做完的，交給明天。', '三拜：關燈，下班。'], ready: '準備好了就拜下去。', sub: '大家一起在場，誰也不用開口。點一炷香，做完一件事撥一顆珠。', sit: '靜坐中（香在燒）', unit: '炷', group: '一起入定' },
+    cabin: { name: '山中小屋', place: '屋內', altar: '我的桌角', start: '點起蠟燭', stop: '先吹熄', dur: '一根蠟燭多長', thing: '這根蠟燭', sitting: '專注中', out: '蠟燭燒完了，出去透透氣', again: '休息夠了，再點一根？', idle: '還沒進屋', stat: '今日蠟燭', bead: '柴火', beadU: '根', beadBtn: '添一根柴', beadUn: '拿回一根', beadSet: '堆', beadHint: '做完一件事，就添一根柴。', end: '收工三步', steps: ['第一步', '第二步', '第三步'], bows: ['第一步：謝謝今天的自己。', '第二步：沒做完的，交給明天。', '第三步：吹熄最後一根蠟燭，下班。'], ready: '準備好了就走第一步。', sub: '大家各自坐在小屋裡，窗外只有風聲。點一根蠟燭，做完一件事添一根柴。', sit: '專注中（蠟燭在燒）', unit: '根', group: '一起點蠟燭' },
+    library: { name: '深夜圖書館', place: '館內', altar: '我的書桌', start: '點亮檯燈', stop: '先熄燈', dur: '一盞燈多長', thing: '這盞燈', sitting: '專注中', out: '燈油用完了，起來伸展一下', again: '休息夠了，再點一盞？', idle: '還沒入座', stat: '今日燈數', bead: '書籤', beadU: '張', beadBtn: '夾一張書籤', beadUn: '抽回一張', beadSet: '疊', beadHint: '做完一件事，就夾一張書籤。', end: '收工三步', steps: ['第一步', '第二步', '第三步'], bows: ['第一步：謝謝今天的自己。', '第二步：沒做完的，夾上書籤留給明天。', '第三步：熄燈，下班。'], ready: '準備好了就走第一步。', sub: '館裡很安靜，每張書桌都有人。點一盞燈，做完一件事夾一張書籤。', sit: '專注中（燈還亮著）', unit: '盞', group: '一起點燈' },
+    tea: { name: '禪意茶室', place: '室內', altar: '我的茶席', start: '沏一壺茶', stop: '先放下茶杯', dur: '一壺茶多長', thing: '這壺茶', sitting: '專注中', out: '茶喝完了，起身走走', again: '休息夠了，再沏一壺？', idle: '還沒入席', stat: '今日茶數', bead: '茶葉', beadU: '片', beadBtn: '放一片茶葉', beadUn: '拿回一片', beadSet: '罐', beadHint: '做完一件事，就放一片茶葉。', end: '收工三步', steps: ['第一步', '第二步', '第三步'], bows: ['第一步：謝謝今天的自己。', '第二步：沒做完的，交給明天。', '第三步：洗杯收席，下班。'], ready: '準備好了就走第一步。', sub: '茶室裡誰也不說話，只聽得到水聲。沏一壺茶，做完一件事放一片茶葉。', sit: '專注中（線香在燒）', unit: '壺', group: '一起沏茶' },
+    park: { name: '紙箱公園', place: '公園裡', altar: '我的紙箱', start: '躺上紙箱', stop: '先坐起來', dur: '要發呆多久', thing: '這段時間', sitting: '發呆中', out: '天黑了，起來伸個懶腰', again: '要不要再躺一下？', idle: '還沒找到紙箱', stat: '今日躺平', bead: '鴿子', beadU: '隻', beadBtn: '招來一隻鴿子', beadUn: '鴿子飛走', beadSet: '群', beadHint: '做完一件事，就有一隻鴿子飛過來。', end: '收工三步', steps: ['第一步', '第二步', '第三步'], bows: ['第一步：拍拍屁股上的灰。', '第二步：把紙箱折好帶走。', '第三步：明天再來（最好不用再來）。'], ready: '準備好了就站起來。', sub: '這幾天大家都說要去睡公園，那就先來躺一下。不看盤、不說話，跟大家一起發呆。', sit: '發呆中（天色在變）', unit: '回', group: '一起躺平' }
+  };
+  let scene = store.get('scene', 'temple');
+  if (!SCENES[scene]) scene = 'temple';
+  let V = SCENES[scene];
+
+  /* ---------- 殿 ---------- */
+  const HALLS = [['main', '全公司'], ['design', '設計組'], ['sales', '業務組'], ['write', '寫作'], ['read', '讀書']];
+  const presetIds = HALLS.map(h => h[0]);
+  const badChar = c => { const n = c.codePointAt(0); return n < 32 || (n >= 127 && n <= 159) || (n >= 0x200b && n <= 0x200f) || (n >= 0x2028 && n <= 0x202e) || (n >= 0x2060 && n <= 0x206f) || n === 0xfeff; };
+  const cleanName = s => Array.from(String(s || '')).filter(c => !badChar(c)).join('').trim().slice(0, 12);
+  const hallLabel = h => { const p = HALLS.find(x => x[0] === h); return p ? p[1] : (h.startsWith('c:') ? h.slice(2) : '全公司'); };
+  const fromHash = () => { const t = (location.hash || '').slice(1); return presetIds.includes(t) ? t : null; };
+  let hall = fromHash() || store.get('hall', 'main');
+  if (typeof hall !== 'string' || !(presetIds.includes(hall) || (hall.startsWith('c:') && cleanName(hall.slice(2))))) hall = 'main';
+
+  let me = store.get('me', { s: 'idle', st: 0, un: 0, dur: 25, intent: '', g: null });
+  if (![25, 50, 90].includes(me.dur)) me.dur = 25;
+  let day = store.get('day', null);
+  if (!day || day.d !== today()) day = { d: today(), beads: 0, sticks: 0, mins: 0 };
+  let room = null, realPeers = [];
+  let demoOn = store.get('demo', true), demo = [];
+  let autoGroup = store.get('autoGroup', false);
+  let testSess = null;
+
+  /* ---------- seats ---------- */
+  const FIG = '<svg class="fig" viewBox="0 0 40 52" aria-hidden="true">' +
+    '<g class="seated"><path class="robe" d="M5 51 Q5 31 20 29 Q35 31 35 51 Z"/><path class="lap" d="M5 51 Q12 44 20 46 Q28 44 35 51 Z"/>' +
+    '<circle class="head" cx="20" cy="19" r="8"/><path class="hair" d="M12 18 Q12 10 20 10 Q28 10 28 18 Q25 14 20 14 Q15 14 12 18Z"/>' +
+    '<ellipse class="hands" cx="20" cy="37" rx="2.6" ry="4.6"/></g>' +
+    '<g class="standing"><path class="robe" d="M13 52 L14.5 31 Q20 27 25.5 31 L27 52 Z"/>' +
+    '<circle class="head" cx="20" cy="21" r="7"/><path class="hair" d="M13 20 Q13 13 20 13 Q27 13 27 20 Q24 16.5 20 16.5 Q16 16.5 13 20Z"/></g></svg>';
+  const seatsEl = $('#seats');
+  const seatEls = [];
+  for (let i = 0; i < SEATS; i++) {
+    const d = document.createElement('div');
+    d.className = 'seat'; d.dataset.k = 'empty'; d.dataset.s = 'idle';
+    d.innerHTML = '<small class="tag"></small><div class="incense"><div class="stick"><i class="burn"></i><b class="ember"></b><span class="smoke"></span></div><div class="censer"></div></div>' + FIG + '<div class="cushion"></div>';
+    d.style.setProperty('--d', (i * 0.37 % 4).toFixed(2) + 's');
+    seatsEl.appendChild(d); seatEls.push(d);
+  }
+  /* 每個人固定坐一個位置，新進來的人才會有走進來的動畫 */
+  const seatOf = new Map();
+  const seatKey = new Array(SEATS).fill('');
+  let demoGen = 0, quietUntil = Date.now() + 3000, arriveTimer = null;
+  const PEER_WORD = { temple: ['同修', '進殿了'], cabin: ['鄰居', '進屋了'], library: ['館友', '入館了'], tea: ['茶友', '入席了'], park: ['路人', '來躺紙箱了'] };
+  const idx = (v, n) => Number.isInteger(v) && v >= 0 && v < n ? v : 0;
+  let look = store.get('look', null);
+  if (!look || typeof look !== 'object') look = { c: Math.floor(Math.random() * 5), k: 0 };
+  look = { c: idx(look.c, 5), k: idx(look.k, 3) };
+  function announce(msg) {
+    const el = $('#arrive'); el.textContent = msg; el.style.opacity = 1;
+    clearTimeout(arriveTimer); arriveTimer = setTimeout(() => { el.style.opacity = 0; }, 5000);
+  }
+
+  function makeDemo() {
+    const now = Date.now(), list = [];
+    for (let i = 0; i < 9; i++) {
+      const dur = [25, 25, 50, 50, 90][i % 5] * 60000;
+      const st = now - Math.random() * dur;
+      const lk = { c: (i * 3 + demoGen) % 5, sk: (i * 7) % 3 };
+      list.push(i % 4 !== 3 ? { s: 'sit', st, un: st + dur, dur, g: null, ...lk } : { s: 'rest', st: now, un: now + Math.random() * REST_MS, dur, g: null, ...lk });
+    }
+    return list;
+  }
+  function tickDemo(now, sess) {
+    for (const p of demo) {
+      if (sess && sess.live && p.g !== sess.key && Math.random() < 0.08) { if (p.s !== 'sit' || now >= p.un) p.st = now; p.s = 'sit'; p.un = sess.end; p.g = sess.key; continue; }
+      if (now < p.un) continue;
+      p.g = null;
+      if (p.s === 'sit') { p.s = 'rest'; p.st = now; p.un = now + REST_MS * (0.4 + Math.random() * 0.6); }
+      else { p.s = 'sit'; p.st = now; p.un = now + p.dur; }
+    }
+  }
+  const num = v => (typeof v === 'number' && isFinite(v)) ? v : 0;
+  function peerState(p) {
+    const pr = p.presence || {};
+    const s = pr.s === 'sit' || pr.s === 'rest' ? pr.s : 'idle';
+    let h = typeof pr.h === 'string' ? pr.h : 'main';
+    if (!(presetIds.includes(h) || (h.startsWith('c:') && h.length <= 14))) h = 'main';
+    return { s, st: num(pr.st), un: num(pr.un), h, g: typeof pr.g === 'string' ? pr.g.slice(0, 40) : null, c: idx(pr.c, 5), sk: idx(pr.k, 3), x: fin(pr.x), z: fin(pr.z), r: fin(pr.r), seat: Number.isInteger(pr.seat) && pr.seat >= 0 && pr.seat < SEATS ? pr.seat : -1 };
+  }
+  /* 香燒完但對方還沒更新（例如關掉螢幕）就當作暫歇 */
+  const eff = (p, now) => (p.s === 'sit' && now >= p.un) ? 'rest' : p.s;
+
+  function renderHall(now, sess) {
+    const inHall = realPeers.map(p => ({ key: 'p:' + p.peer, ...peerState(p) })).filter(p => p.h === hall);
+    const list = [{ k: 'me', key: 'me', ...me, c: look.c, sk: look.k }];
+    for (const p of inHall) list.push({ k: 'peer', ...p });
+    if (demoOn) demo.forEach((p, i) => list.push({ k: 'demo', key: 'd' + demoGen + ':' + i, ...p }));
+    hallList = list;
+
+    const present = new Set(list.map(x => x.key));
+    for (const k of [...seatOf.keys()]) if (!present.has(k)) seatOf.delete(k);
+    const used = new Set(seatOf.values());
+    let overflow = 0;
+    for (const it of list) {
+      if (seatOf.has(it.key)) continue;
+      let i = 0; while (i < SEATS && used.has(i)) i++;
+      if (i < SEATS) { seatOf.set(it.key, i); used.add(i); } else overflow++;
+    }
+    const bySeat = new Array(SEATS).fill(null);
+    list.forEach(it => { const i = seatOf.get(it.key); if (i != null) bySeat[i] = it; });
+    let stagger = 0, arrived = 0, gone = 0;
+    seatKey.forEach(k => { if (k.startsWith('p:') && !present.has(k)) gone++; });
+
+    seatEls.forEach((el, i) => {
+      const it = bySeat[i];
+      const key = it ? it.key : '';
+      if (key !== seatKey[i]) {
+        el.classList.remove('enter');
+        if (key) {
+          void el.offsetWidth;
+          el.style.setProperty('--ed', (stagger++ * 0.25).toFixed(2) + 's');
+          el.classList.add('enter');
+          if (key.startsWith('p:')) arrived++;
+        }
+        seatKey[i] = key;
+      }
+      if (!it) { el.dataset.k = 'empty'; el.dataset.s = 'idle'; el.dataset.g = ''; el.querySelector('.tag').textContent = ''; return; }
+      el.dataset.k = it.k;
+      el.style.setProperty('--robe', 'var(--robe' + idx(it.c, 5) + ')');
+      el.style.setProperty('--skin', 'var(--skin' + idx(it.sk, 3) + ')');
+      const s = eff(it, now);
+      el.dataset.s = s;
+      el.dataset.g = sess && sess.live && s === 'sit' && it.g === sess.key ? '1' : '';
+      el.querySelector('.tag').textContent = it.k === 'me' ? '你' : it.k === 'demo' ? '示範' : '';
+      const left = s === 'sit' && it.un > it.st ? Math.min(1, Math.max(0.02, (it.un - now) / (it.un - it.st))) : 1;
+      el.style.setProperty('--left', left.toFixed(4));
+    });
+    $('#more').hidden = overflow <= 0;
+    if (overflow > 0) $('#more').textContent = '另有 ' + overflow + ' 位坐在外圍';
+    if (now > quietUntil) {
+      const [who, verb] = PEER_WORD[scene] || PEER_WORD.temple;
+      if (arrived) announce('有 ' + arrived + ' 位' + who + verb);
+      else if (gone) announce(gone + ' 位' + who + '離開了');
+    }
+
+    const real = [me, ...inHall];
+    const sit = real.filter(p => eff(p, now) === 'sit').length;
+    const rest = real.filter(p => eff(p, now) === 'rest').length;
+    let txt = '此刻 <b>' + sit + '</b> 人' + (scene === 'temple' ? '靜坐' : '專注');
+    if (rest) txt += ' · ' + rest + ' 人暫歇';
+    if (demoOn) txt += '（另有 ' + demo.length + ' 位示範）';
+    $('#chipCount').innerHTML = txt;
+    $('#chipCount').prepend(document.createTextNode(hallLabel(hall) + ' · '));
+    $('#lgDemo').hidden = !demoOn;
+    renderHallButtons(now);
+  }
+
+  let hallSig = '';
+  function renderHallButtons(now) {
+    const all = [{ h: hall }, ...realPeers.map(peerState)];
+    const counts = {};
+    all.forEach(p => { counts[p.h] = (counts[p.h] || 0) + 1; });
+    const ids = presetIds.slice();
+    if (!presetIds.includes(hall)) ids.push(hall);
+    Object.keys(counts).forEach(h => { if (!ids.includes(h)) ids.push(h); });
+    const sig = ids.map(h => h + counts[h]).join('|') + hall;
+    if (sig === hallSig) return;
+    hallSig = sig;
+    const box = $('#halls'); box.textContent = '';
+    ids.forEach(h => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-current', h === hall ? 'true' : 'false');
+      b.textContent = hallLabel(h);
+      const c = document.createElement('span'); c.textContent = counts[h] || 0; b.appendChild(c);
+      b.onclick = () => switchHall(h);
+      box.appendChild(b);
+    });
+  }
+  function switchHall(h) {
+    hall = h; store.set('hall', hall);
+    if (presetIds.includes(h)) { try { history.replaceState(null, '', '#' + h); } catch (e) {} }
+    demoGen++; demo = makeDemo(); hallSig = ''; quietUntil = Date.now() + 2000; push(); tick();
+  }
+  $('#customForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const n = cleanName($('#customName').value);
+    if (!n) return;
+    $('#customName').value = '';
+    switchHall('c:' + n);
+  });
+  window.addEventListener('hashchange', () => { const h = fromHash(); if (h && h !== hall) switchHall(h); });
+
+  /* ---------- 共修 ---------- */
+  const SESSIONS = [[9, 0, '晨坐'], [13, 30, '午坐'], [18, 0, '晚收']];
+  function currentSession(now) {
+    const cands = [];
+    const d = new Date(now);
+    for (const [h, m, n] of SESSIONS) {
+      const t0 = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m).getTime();
+      cands.push({ key: today() + '-' + h + m, name: n, t0, end: t0 + GROUP_MIN * 60000 });
+    }
+    if (testSess) cands.push(testSess);
+    if (hostSess && hostSess.hall === hall) cands.push(hostSess);
+    for (const c of cands) {
+      if (now >= c.t0 - 60000 && now < c.end) return { ...c, live: now >= c.t0, joinable: now < c.t0 + GROUP_WINDOW };
+    }
+    return null;
+  }
+  function renderNext(now, sess) {
+    if (sess && sess.live) { $('#chipNext').innerHTML = '<b>' + sess.name + '共修中</b>，' + hhmm(sess.end) + ' 一起收'; return; }
+    const d = new Date(now);
+    const mins = d.getHours() * 60 + d.getMinutes();
+    let best = null;
+    for (const [h, m, n] of SESSIONS) { const t = h * 60 + m; if (t > mins) { best = [h, m, n, t - mins]; break; } }
+    if (!best) { const [h, m, n] = SESSIONS[0]; best = [h, m, n, 24 * 60 - mins + h * 60 + m]; }
+    const [h, m, n, left] = best;
+    const lt = left >= 60 ? Math.floor(left / 60) + ' 小時 ' + (left % 60) + ' 分' : left + ' 分';
+    $('#chipNext').textContent = '下一場共修 ' + String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ' ' + n + ' · 還有 ' + lt;
+  }
+  let firedKey = store.get('firedKey', '');
+  function renderGroup(now, sess) {
+    const bar = $('#groupBar');
+    if (!sess) { bar.hidden = true; return; }
+    bar.hidden = false;
+    $('#gName').textContent = sess.name;
+    const inIt = me.s === 'sit' && me.g === sess.key;
+    const together = [me, ...realPeers.map(peerState).filter(p => p.h === hall)].filter(p => eff(p, now) === 'sit' && p.g === sess.key).length;
+    if (!sess.live) {
+      $('#gTxt').textContent = fmt(sess.t0 - now) + ' 後開始，大家一起到 ' + hhmm(sess.end) + '。';
+      $('#btnGroup').textContent = autoGroup ? '到時自動加入 ✓' : '到時自動加入';
+      $('#btnGroup').hidden = false;
+    } else {
+      $('#gTxt').textContent = '進行中 · ' + hallLabel(hall) + ' ' + together + ' 人一起 · ' + hhmm(sess.end) + ' 一起收（還有 ' + fmt(sess.end - now) + '）';
+      $('#btnGroup').textContent = inIt ? '你在共修中' : V.group;
+      $('#btnGroup').hidden = !inIt && !sess.joinable;
+    }
+    $('#btnGroup').disabled = sess.live && inIt;
+    if (sess.live && firedKey !== sess.key) {
+      firedKey = sess.key; store.set('firedKey', firedKey);
+      if (now - sess.t0 < 60000) audio.chime(2);
+      if (autoGroup && !inIt && sess.joinable) joinGroup(sess);
+    }
+  }
+  function joinGroup(sess) {
+    const now = Date.now();
+    if (sess.end <= now) return;
+    me = { s: 'sit', st: me.s === 'sit' ? me.st : now, un: sess.end, dur: me.dur, intent: me.s === 'sit' ? me.intent : $('#intent').value.trim(), g: sess.key, seat: me.s === 'sit' ? me.seat : (w3 ? w3.pickSeat() : -1) };
+    audio.chime(1); save(); push(); wake(true);
+  }
+  $('#btnGroup').onclick = () => {
+    const sess = currentSession(Date.now());
+    if (!sess) return;
+    if (!sess.live) { autoGroup = true; $('#autoGroup').checked = true; store.set('autoGroup', true); tick(); return; }
+    joinGroup(sess); tick();
+  };
+  $('#autoGroup').checked = autoGroup;
+  $('#autoGroup').onchange = e => { autoGroup = e.target.checked; store.set('autoGroup', autoGroup); tick(); };
+  $('#btnTest').onclick = () => {
+    const t0 = Date.now() + 60000;
+    testSess = { key: 'test-' + t0, name: '試玩共修', t0, end: t0 + 3 * 60000 };
+    audio.unlock(); tick();
+  };
+
+  /* ---------- my altar ---------- */
+  function save() { store.set('me', me); store.set('day', day); }
+  function push() { if (room) room.presence({ h: hall, s: me.s, st: me.st, un: me.un, g: me.g || null, c: look.c, k: look.k, ...(w3 ? w3.pose() : {}) }).catch(() => {}); }
+
+  /* ---------- 我的模樣 ---------- */
+  function renderLook() {
+    [['#robeSw', 5, 'c', '--robe', '衣服顏色'], ['#skinSw', 3, 'k', '--skin', '膚色']].forEach(([sel, n, f, tok, name]) => {
+      const box = $(sel); box.textContent = '';
+      for (let i = 0; i < n; i++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'sw'; b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', look[f] === i ? 'true' : 'false');
+        b.setAttribute('aria-label', name + ' ' + (i + 1));
+        b.style.background = 'var(' + tok + i + ')';
+        b.onclick = () => { look[f] = i; store.set('look', look); renderLook(); push(); tick(); };
+        box.appendChild(b);
+      }
+    });
+  }
+  renderLook();
+
+  function renderAltar(now) {
+    const big = $('#big');
+    big.dataset.s = me.s;
+    const sitting = me.s === 'sit';
+    const left = sitting ? Math.min(1, Math.max(0.02, (me.un - now) / (me.un - me.st))) : 1;
+    big.style.setProperty('--left', left.toFixed(4));
+    if (sitting) { $('#stateTxt').textContent = me.g ? V.sitting + '（共修）' : V.sitting; $('#clock').textContent = fmt(me.un - now); }
+    else if (me.s === 'rest') {
+      const r = me.un - now;
+      $('#stateTxt').textContent = r > 0 ? V.out : V.again;
+      $('#clock').textContent = r > 0 ? fmt(r) : fmt(me.dur * 60000);
+    } else { $('#stateTxt').textContent = V.idle; $('#clock').textContent = fmt(me.dur * 60000); }
+    $('#intentShow').textContent = sitting && me.intent ? V.thing + '：' + me.intent : '';
+    $('#btnStart').hidden = sitting; $('#btnStop').hidden = !sitting;
+    $('#btnBlank').hidden = sitting || scene !== 'park';
+    document.querySelectorAll('#dur input').forEach(r => { r.disabled = sitting; });
+    $('#intent').disabled = sitting;
+    $('#stSticks').textContent = day.sticks; $('#stMins').textContent = day.mins; $('#stBeads').textContent = day.beads;
+    document.title = sitting ? fmt(me.un - now) + ' · ' + V.name : V.name;
+  }
+
+  function start(blank) {
+    audio.chime(1);
+    const now = Date.now();
+    me = { s: 'sit', st: now, un: now + me.dur * 60000, dur: me.dur, intent: blank === true ? '' : $('#intent').value.trim(), g: null, seat: w3 ? w3.pickSeat() : -1 };
+    save(); push(); wake(true); tick();
+  }
+  function finish(early) {
+    const now = Date.now();
+    /* 手機休眠或切走時燒完的，回來時補一句 */
+    if (!early && now - me.un > 5000) {
+      const m = Math.max(0, Math.round((me.un - me.st) / 60000));
+      showNotice('你離開的時候，' + V.thing + '在 ' + hhmm(me.un) + ' 結束了，這段專注了 ' + m + ' 分鐘。休息一下再回來。');
+    }
+    const used = Math.round((Math.min(now, me.un) - me.st) / 60000);
+    day.mins += Math.max(0, used);
+    if (!early) day.sticks += 1;
+    me.s = 'rest'; me.st = now; me.un = now + REST_MS; me.g = null;
+    audio.chime(early ? 1 : 3);
+    save(); push(); wake(false);
+  }
+
+  /* ---------- beads ---------- */
+  const svg = $('#beadSvg');
+  const beads = [];
+  for (let i = 0; i < 108; i++) {
+    const a = -Math.PI / 2 + (i / 108) * Math.PI * 2;
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', (60 + 50 * Math.cos(a)).toFixed(2));
+    c.setAttribute('cy', (60 + 50 * Math.sin(a)).toFixed(2));
+    c.setAttribute('r', '2.3');
+    svg.appendChild(c); beads.push(c);
+  }
+  const guru = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  guru.setAttribute('cx', '60'); guru.setAttribute('cy', '6'); guru.setAttribute('r', '4.2'); guru.setAttribute('class', 'guru');
+  svg.appendChild(guru);
+  function renderBeads() {
+    const n = day.beads % 108, rounds = Math.floor(day.beads / 108);
+    beads.forEach((c, i) => c.classList.toggle('on', i < n || (n === 0 && rounds > 0)));
+    $('#beadN').textContent = n === 0 && rounds > 0 ? 108 : n;
+    $('#beadOf').textContent = '/ 108 ' + V.beadU;
+    $('#beadRound').textContent = rounds > 0 ? '今天已圓滿 ' + rounds + ' ' + V.beadSet + '。' : V.beadHint;
+    $('#stBeads').textContent = day.beads;
+  }
+  $('#btnBead').onclick = () => { day.beads++; save(); renderBeads(); audio.click(); if (day.beads % 108 === 0) audio.chime(3); };
+  $('#btnUnbead').onclick = () => { if (day.beads > 0) { day.beads--; save(); renderBeads(); } };
+
+  /* ---------- audio (personal only) ---------- */
+  const AMB_NAME = { temple: '木魚與低鳴', cabin: '風聲與柴火', library: '翻書聲', tea: '煮水聲', park: '鳥叫與遠方車聲' };
+  const audio = (() => {
+    let ctx = null, amb = null, noise = null;
+    const get = () => { if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { ctx = null; } } if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {}); return ctx; };
+    function bowl(t0) {
+      const c = get(); if (!c) return;
+      [[220, .22], [528, .1], [1186, .05]].forEach(([f, g]) => {
+        const o = c.createOscillator(), v = c.createGain();
+        o.frequency.value = f; o.type = 'sine';
+        v.gain.setValueAtTime(0, t0); v.gain.linearRampToValueAtTime(g, t0 + .02); v.gain.exponentialRampToValueAtTime(.0001, t0 + 4.5);
+        o.connect(v).connect(c.destination); o.start(t0); o.stop(t0 + 4.6);
+      });
+    }
+    function brown(c) {
+      if (noise) return noise;
+      const len = c.sampleRate * 4, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+      let last = 0;
+      for (let i = 0; i < len; i++) { last = (last + .02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.2; }
+      return (noise = buf);
+    }
+    function white(c, dur) {
+      const len = Math.max(1, Math.floor(c.sampleRate * dur)), b = c.createBuffer(1, len, c.sampleRate), d = b.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      return b;
+    }
+    function env(c, node, out, t, a, peak, dec) {
+      const g = c.createGain();
+      g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(.0001, t + a + dec);
+      node.connect(g).connect(out);
+    }
+    /* 各場景的點綴聲：遠處木魚、柴火劈啪、翻書、水泡 */
+    const FX = {
+      knock(c, out, t, v) { const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(700, t); o.frequency.exponentialRampToValueAtTime(520, t + .08); env(c, o, out, t, .003, v, .14); o.start(t); o.stop(t + .2); },
+      crackle(c, out, t, v) { const s = c.createBufferSource(); s.buffer = white(c, .03); const f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1500 + Math.random() * 2500; s.connect(f); env(c, f, out, t, .001, v, .03 + Math.random() * .04); s.start(t); },
+      page(c, out, t, v) { const s = c.createBufferSource(); s.buffer = white(c, .6); const f = c.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = .8; f.frequency.setValueAtTime(3500, t); f.frequency.exponentialRampToValueAtTime(900, t + .45); s.connect(f); env(c, f, out, t, .08, v, .4); s.start(t); },
+      chirp(c, out, t, v) { const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(2600 + Math.random() * 600, t); o.frequency.exponentialRampToValueAtTime(3900 + Math.random() * 500, t + .07); env(c, o, out, t, .005, v, .08); o.start(t); o.stop(t + .1); },
+      coo(c, out, t, v) { const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(430, t); o.frequency.linearRampToValueAtTime(370, t + .35); env(c, o, out, t, .06, v, .35); o.start(t); o.stop(t + .45); },
+      bubble(c, out, t, v) { const o = c.createOscillator(); o.type = 'sine'; const f0 = 250 + Math.random() * 350; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f0 * 2.4, t + .05); env(c, o, out, t, .004, v, .06); o.start(t); o.stop(t + .09); }
+    };
+    function bed(c, out, type, freq, gain, q) {
+      const s = c.createBufferSource(); s.buffer = brown(c); s.loop = true;
+      const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; if (q) f.Q.value = q;
+      const g = c.createGain(); g.gain.value = gain;
+      s.connect(f).connect(g).connect(out); s.start();
+      return { s, f };
+    }
+    function stopAmb() {
+      if (!amb) return;
+      const a = amb; amb = null;
+      clearTimeout(a.t);
+      try { const t = ctx.currentTime; a.out.gain.cancelScheduledValues(t); a.out.gain.setValueAtTime(a.out.gain.value, t); a.out.gain.linearRampToValueAtTime(0, t + .4); } catch (e) {}
+      setTimeout(() => { a.srcs.forEach(s => { try { s.stop(); } catch (e) {} }); try { a.out.disconnect(); } catch (e) {} }, 500);
+    }
+    function startAmb(sc) {
+      const c = get(); if (!c) return false;
+      stopAmb();
+      const out = c.createGain();
+      out.gain.setValueAtTime(.0001, c.currentTime); out.gain.exponentialRampToValueAtTime(1, c.currentTime + 2);
+      out.connect(c.destination);
+      const cur = { out, srcs: [], t: null };
+      amb = cur;
+      const every = (fn, min, max) => {
+        const loop = () => { if (amb !== cur) return; fn(c.currentTime + .05); cur.t = setTimeout(loop, min + Math.random() * (max - min)); };
+        cur.t = setTimeout(loop, min * Math.random());
+      };
+      if (sc === 'cabin') {
+        const w = bed(c, out, 'lowpass', 450, .55);
+        const lfo = c.createOscillator(), lg = c.createGain();
+        lfo.frequency.value = .07; lg.gain.value = 260; lfo.connect(lg).connect(w.f.frequency); lfo.start();
+        cur.srcs.push(w.s, lfo);
+        every(t => FX.crackle(c, out, t, .05 + Math.random() * .08), 120, 1100);
+      } else if (sc === 'library') {
+        const b = bed(c, out, 'lowpass', 700, .2); cur.srcs.push(b.s);
+        every(t => FX.page(c, out, t, .06), 18000, 40000);
+      } else if (sc === 'park') {
+        const b = bed(c, out, 'lowpass', 240, .4); cur.srcs.push(b.s);
+        every(t => { const n = 2 + Math.floor(Math.random() * 3); for (let i = 0; i < n; i++) FX.chirp(c, out, t + i * .13, .02); }, 2000, 7000);
+        const coo = () => { if (amb !== cur) return; const t = c.currentTime + .05; FX.coo(c, out, t, .05); FX.coo(c, out, t + .5, .04); setTimeout(coo, 9000 + Math.random() * 12000); };
+        setTimeout(coo, 3000);
+      } else if (sc === 'tea') {
+        const b = bed(c, out, 'bandpass', 900, .25, .7); cur.srcs.push(b.s);
+        every(t => FX.bubble(c, out, t, .025 + Math.random() * .03), 180, 900);
+      } else {
+        const b = bed(c, out, 'lowpass', 320, .4); cur.srcs.push(b.s);
+        every(t => { const n = 4 + Math.floor(Math.random() * 5); for (let i = 0; i < n; i++) FX.knock(c, out, t + i * .6, .05); }, 9000, 16000);
+      }
+      return true;
+    }
+    return {
+      unlock() { get(); },
+      chime(n) { const c = get(); if (!c) return; for (let i = 0; i < n; i++) bowl(c.currentTime + i * 1.6); },
+      click() {
+        const c = get(); if (!c) return;
+        const o = c.createOscillator(), v = c.createGain(), t = c.currentTime;
+        o.frequency.value = 880; v.gain.setValueAtTime(.06, t); v.gain.exponentialRampToValueAtTime(.0001, t + .12);
+        o.connect(v).connect(c.destination); o.start(t); o.stop(t + .13);
+      },
+      playing: () => !!amb,
+      startAmb, stopAmb
+    };
+  })();
+  /* 第一次點擊就準備好聲音，之後共修開始時才響得出來 */
+  document.addEventListener('pointerdown', () => audio.unlock(), { once: true });
+  function soundLabel() {
+    const b = $('#btnSound'), on = audio.playing();
+    b.setAttribute('aria-pressed', on);
+    b.textContent = on ? '關閉環境音' : '開啟環境音：' + AMB_NAME[scene];
+  }
+  $('#btnSound').onclick = () => { if (audio.playing()) audio.stopAmb(); else audio.startAmb(scene); soundLabel(); };
+
+  /* ---------- 主持人臨時共修、致意、提醒 ---------- */
+  let hostSess = null, isHost = false;
+  const GREET = { temple: '合掌致意', cabin: '點頭致意', library: '點頭致意', tea: '點頭致意', park: '揮手致意' };
+  const validHall = h => typeof h === 'string' && (presetIds.includes(h) || (h.startsWith('c:') && h.length <= 14 && cleanName(h.slice(2)) === h.slice(2)));
+  function validHost(d, now) {
+    if (!d || typeof d !== 'object') return null;
+    const t0 = num(d.t0), end = num(d.end);
+    if (!validHall(d.hall) || end <= t0 || end - t0 > 90 * 60000 || t0 > now + 10 * 60000 || end < now) return null;
+    return { key: 'host-' + Math.round(t0), name: '臨時共修', t0, end, hall: d.hall };
+  }
+  function hostEmit() {
+    if (!room || !hostSess || Date.now() >= hostSess.end) return;
+    room.emit('session', { t0: hostSess.t0, end: hostSess.end, hall: hostSess.hall }).catch(e => {
+      if (e && e.code === 'not_permitted') { isHost = false; $('#hostBox').hidden = true; }
+    });
+  }
+  document.querySelectorAll('#hostBox button').forEach(b => {
+    b.onclick = () => {
+      const t0 = Date.now() + 30000;
+      hostSess = { key: 'host-' + t0, name: '臨時共修', t0, end: t0 + Number(b.dataset.min) * 60000, hall };
+      audio.unlock(); hostEmit(); tick();
+    };
+  });
+  /* 晚進來或換殿的人收不到當下那一則，主持人這邊每 20 秒再廣播一次 */
+  setInterval(() => { if (isHost) hostEmit(); }, 20000);
+
+  function greetSeat(key) {
+    if (w3) w3.greet(key);
+    const i = seatOf.get(key); if (i == null) return;
+    const el = seatEls[i];
+    el.classList.remove('greet'); void el.offsetWidth; el.classList.add('greet');
+    clearTimeout(el._gt); el._gt = setTimeout(() => el.classList.remove('greet'), 2600);
+  }
+  $('#btnGreet').onclick = () => {
+    const b = $('#btnGreet');
+    b.disabled = true; setTimeout(() => { b.disabled = false; }, 8000);
+    greetSeat('me'); audio.click();
+    if (room) room.emit('bow').catch(e => { if (e && e.code === 'not_permitted') announce('你目前只有檢視權限，其他人看不到你的致意'); });
+  };
+  function showNotice(t) { $('#noticeTxt').textContent = t; $('#notice').hidden = false; }
+  $('#noticeClose').onclick = () => { $('#notice').hidden = true; };
+
+  /* ---------- wake lock ---------- */
+  let lock = null;
+  function wake(on) {
+    if (on && navigator.wakeLock && !lock) navigator.wakeLock.request('screen').then(l => { lock = l; l.addEventListener('release', () => { lock = null; }); }).catch(() => {});
+    if (!on && lock) { lock.release().catch(() => {}); lock = null; }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') { if (me.s === 'sit') wake(true); push(); tick(); }
+  });
+
+  /* ---------- 收工 ---------- */
+  let bowN = 0;
+  const ov = $('#endOv');
+  function openEnd() {
+    bowN = 0; $('#bowStep').textContent = V.ready; $('#btnBow').textContent = V.steps[0]; $('#btnBow').hidden = false;
+    $('#summary').hidden = true; $('#btnCopy').hidden = true; $('#btnCopy').textContent = '複製今日小結'; $('#btnEndClose').textContent = '先不要';
+    document.querySelectorAll('.bowdots span').forEach(s => s.classList.remove('on'));
+    ov.hidden = false; $('#carryIn').focus();
+  }
+  $('#btnEnd').onclick = openEnd;
+  $('#btnEndClose').onclick = () => { ov.hidden = true; };
+  ov.addEventListener('keydown', e => { if (e.key === 'Escape') ov.hidden = true; });
+  $('#btnBow').onclick = () => {
+    if (bowN === 0 && me.s === 'sit') finish(true);
+    audio.chime(1);
+    document.querySelectorAll('.bowdots span')[bowN].classList.add('on');
+    $('#bowStep').textContent = V.bows[bowN];
+    bowN++;
+    if (bowN < 3) { $('#btnBow').textContent = V.steps[bowN]; return; }
+    $('#btnBow').hidden = true;
+    const carry = $('#carryIn').value.trim();
+    store.set('carry', { d: today(), text: carry });
+    me = { s: 'idle', st: 0, un: 0, dur: me.dur, intent: '', g: null }; save(); push(); wake(false);
+    const sum = '今日小結 ' + day.d + '\n' + V.stat + ' ' + day.sticks + ' ' + V.unit + ' · 專注 ' + day.mins + ' 分 · ' + V.bead + ' ' + day.beads + ' ' + V.beadU + (carry ? '\n明天接著做：' + carry : '');
+    $('#summary').textContent = sum; $('#summary').hidden = false;
+    $('#btnCopy').hidden = false; $('#btnEndClose').textContent = '關閉';
+    tick();
+  };
+  $('#btnCopy').onclick = () => {
+    const t = $('#summary').textContent;
+    const sel = () => { const r = document.createRange(); r.selectNodeContents($('#summary')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText(t).then(() => { $('#btnCopy').textContent = '已複製'; }, sel); } catch (e) { sel(); }
+  };
+
+  const carry = store.get('carry', null);
+  if (carry && carry.text && carry.d !== today() && store.get('carryDismiss', '') !== carry.d) {
+    $('#carryText').textContent = carry.text; $('#carry').hidden = false;
+  }
+  $('#carryClose').onclick = () => { $('#carry').hidden = true; store.set('carryDismiss', carry ? carry.d : ''); };
+
+  /* ---------- 場景 ---------- */
+  function applyScene() {
+    V = SCENES[scene];
+    document.documentElement.dataset.scene = scene;
+    $('#h1').textContent = V.name;
+    $('#eyebrow').hidden = scene === 'temple';
+    $('#eyebrow').textContent = scene === 'park' ? '靜默專注殿 · 限時彩蛋' : '靜默專注殿';
+    $('#sub').textContent = V.sub;
+    $('#hallTitle').textContent = V.place;
+    $('#altarTitle').textContent = V.altar;
+    $('#btnStart').textContent = V.start;
+    $('#btnStop').textContent = V.stop;
+    $('#durLegend').textContent = V.dur;
+    $('#intentLabel').textContent = V.thing + '要做什麼（只存在你的瀏覽器，不會給任何人看）';
+    $('#stLabel').textContent = V.stat;
+    $('#stBeadLabel').textContent = V.bead;
+    $('#btnBead').textContent = V.beadBtn;
+    $('#btnUnbead').textContent = V.beadUn;
+    $('#btnEnd').textContent = V.end;
+    $('#endTitle').textContent = V.end;
+    $('#lgSit').textContent = V.sit;
+    $('#scene').value = scene;
+    if (w3) w3.setScene(scene);
+    $('#btnGreet').textContent = GREET[scene];
+    soundLabel();
+    renderBeads();
+  }
+  $('#scene').onchange = e => { scene = SCENES[e.target.value] ? e.target.value : 'temple'; store.set('scene', scene); applyScene(); if (audio.playing()) { audio.startAmb(scene); soundLabel(); } tick(); };
+
+  /* ---------- controls ---------- */
+  document.querySelectorAll('#dur input').forEach(r => {
+    r.checked = Number(r.value) === me.dur;
+    r.onchange = () => { me.dur = Number(r.value); save(); tick(); };
+  });
+  $('#intent').value = me.intent || '';
+  $('#btnStart').onclick = () => start(false);
+  $('#btnBlank').onclick = () => start(true);
+  $('#btnStop').onclick = () => { finish(true); tick(); };
+  $('#demoToggle').checked = demoOn;
+  $('#demoToggle').onchange = e => { demoOn = e.target.checked; store.set('demo', demoOn); tick(); };
+
+  /* ---------- 3D 殿堂：大家的人物在同一個空間裡走動、入座 ---------- */
+  const ROBE = [0xB0713A, 0x6C7D58, 0x58708F, 0x8C5A6C, 0x8F8B7C], SKIN = [0xF1D8BE, 0xD4A47A, 0x8C6244];
+  const ROOM = { x: 7, z: 6 };
+  const SEAT_POS = [];
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) SEAT_POS.push({ x: -5 + c * 2, z: -1.4 + r * 1.9 });
+  const SKINS = {
+    temple: { bg: 0x2a0d08, floor: 0x5c2418, wall: 0x9e2219, trim: 0xd9a43a, seat: 0xc08a2e, top: .15, stick: 0xc9a25a, stickR: .022, stickH: .7, ember: 0xff8a3a, light: 0xffc890 },
+    cabin: { bg: 0x1a120c, floor: 0x6e4b32, wall: 0x7a5236, trim: 0x4a3020, seat: 0x8e6c49, top: .32, stick: 0xf3ead6, stickR: .07, stickH: .45, ember: 0xffb04a, light: 0xffb070 },
+    library: { bg: 0x0d111c, floor: 0x343a4f, wall: 0x253049, trim: 0x8a6a3a, seat: 0x5d6f8e, top: .32, stick: 0x9a8a6a, stickR: .03, stickH: .55, ember: 0xffe07a, light: 0xd8deff },
+    park: { bg: 0x9cc7e8, floor: 0x7fa65a, wall: 0x7fa65a, trim: 0x6b5236, seat: 0xc49a64, top: .06, stick: 0xf3ead6, stickR: .08, stickH: .14, ember: 0xffffff, light: 0xfff2d8 },
+    tea: { bg: 0xd9d4c0, floor: 0xc9c48a, wall: 0xf1ecdc, trim: 0x6b5236, seat: 0x7e8f58, top: .1, stick: 0x7e5f38, stickR: .018, stickH: .55, ember: 0xe3a658, light: 0xfff0d8 }
+  };
+  const fin = v => (typeof v === 'number' && isFinite(v)) ? v : null;
+  const clampX = v => Math.max(-ROOM.x + .4, Math.min(ROOM.x - .4, v));
+  const clampZ = v => Math.max(-ROOM.z + 2.4, Math.min(ROOM.z + .8, v));
+  let w3 = null, hallList = [];
+
+  function initWorld() {
+    const T = window.THREE;
+    if (!T) return null;
+    let renderer;
+    try { renderer = new T.WebGLRenderer({ antialias: true }); } catch (e) { return null; }
+    if (!renderer.getContext()) return null;
+    const stage = $('#stage');
+    const small = Math.min(innerWidth, innerHeight) < 600;
+    renderer.setPixelRatio(Math.min(small ? 1.5 : 2, window.devicePixelRatio || 1));
+    const cv = renderer.domElement;
+    cv.className = 'world'; cv.tabIndex = 0; cv.setAttribute('aria-label', '3D 殿堂，可用方向鍵走動');
+    stage.prepend(cv);
+
+    const sc = new T.Scene();
+    const cam = new T.PerspectiveCamera(48, 1, .1, 80);
+    const hemi = new T.HemisphereLight(0xffffff, 0x3a3a3a, .75); sc.add(hemi);
+    const sun = new T.DirectionalLight(0xffffff, .5); sun.position.set(4, 9, 6); sc.add(sun);
+    const glow = new T.PointLight(0xffaa66, 1, 16, 2); glow.position.set(0, 3, -4); sc.add(glow);
+    const matCache = new Map();
+    const lam = c => { const k = 'l' + c; if (!matCache.has(k)) matCache.set(k, new T.MeshLambertMaterial({ color: c })); return matCache.get(k); };
+    const emi = c => { const k = 'e' + c; if (!matCache.has(k)) matCache.set(k, new T.MeshBasicMaterial({ color: c })); return matCache.get(k); };
+    const unitBox = new T.BoxGeometry(1, 1, 1);
+    let env = null, sk = SKINS.temple, sceneName = 'temple';
+    const seats = [];
+
+    const add = (o, p, x, y, z) => { o.position.set(x, y, z); p.add(o); return o; };
+    const box = (w, h, d, m, x, y, z, p) => { const o = new T.Mesh(unitBox, m); o.scale.set(w, h, d); return add(o, p || env, x, y, z); };
+    const cyl = (rt, rb, h, m, x, y, z, p, seg) => add(new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg || 16), m), p || env, x, y, z);
+    const sph = (r, m, x, y, z, p) => add(new T.Mesh(new T.SphereGeometry(r, 16, 12), m), p || env, x, y, z);
+    function disposeEnv(o) { o.traverse(n => { if (n.geometry && n.geometry !== unitBox) n.geometry.dispose(); }); }
+
+    const DECOR = {
+      temple() {
+        [-6.2, 6.2].forEach(x => [-3.6, 2.6].forEach(z => { cyl(.32, .32, 6, lam(0xb22a1f), x, 3, z); cyl(.42, .42, .3, lam(sk.trim), x, .15, z); }));
+        box(5.4, 1, 1.3, lam(0x7d1a13), 0, .5, -4.8);
+        box(5.5, .06, 1.36, lam(sk.trim), 0, 1.03, -4.8);
+        cyl(.5, .85, 1.3, lam(0xd9a43a), 0, 1.9, -5.4);
+        sph(.36, lam(0xe2b24a), 0, 2.85, -5.4);
+        add(new T.Mesh(new T.TorusGeometry(.62, .04, 8, 40), emi(0xffd27a)), env, 0, 2.85, -5.6);
+        [-1.6, 1.6].forEach(x => { cyl(.06, .06, .3, lam(0xf3ead6), x, 1.2, -4.6); sph(.05, emi(0xffb04a), x, 1.38, -4.6); });
+        [-4.5, -1.5, 1.5, 4.5].forEach(x => { sph(.34, emi(0xd8402a), x, 4.3, .4); cyl(.01, .01, 1.4, lam(0x222222), x, 5.3, .4, env, 4); });
+        box(14.6, .25, .1, lam(sk.trim), 0, 5.2, -5.84);
+      },
+      cabin() {
+        box(2.6, 2.2, .9, lam(0x77706a), 0, 1.1, -5.6);
+        box(1.5, 1.1, .2, emi(0x1a1210), 0, .65, -5.12);
+        add(new T.Mesh(new T.ConeGeometry(.32, .7, 10), emi(0xff8a2a)), env, 0, .5, -5.2);
+        add(new T.Mesh(new T.ConeGeometry(.18, .45, 8), emi(0xffd060)), env, .15, .4, -5.1);
+        for (let z = -4.5; z <= 5; z += 3) box(15, .3, .3, lam(sk.trim), 0, 5.2, z);
+        [-1, 1].forEach(s => [-2, 2].forEach(z => box(.06, 1.6, 1.4, emi(0x22355c), s * (ROOM.x + 1), 2.6, z)));
+        box(6, .02, 4.2, lam(0x8a3b2a), 0, .012, 1.4);
+      },
+      library() {
+        const cols = [0x8c3b3b, 0x3b5a8c, 0x4f7a4a, 0xc9a24a, 0x6a4f8c, 0xd9d0bc, 0x7a4a2a];
+        for (let i = 0; i < 5; i++) {
+          const x = -5.2 + i * 2.6;
+          box(2.4, 4.2, .6, lam(0x5a3f28), x, 2.1, -5.65);
+          for (let row = 0; row < 3; row++) {
+            let bx = x - 1.05;
+            while (bx < x + 1.0) {
+              const w = .1 + Math.random() * .1, h = .5 + Math.random() * .25;
+              box(w * .9, h, .4, lam(cols[Math.floor(Math.random() * cols.length)]), bx + w / 2, .55 + row * 1.3 + h / 2, -5.45);
+              bx += w;
+            }
+          }
+        }
+        [-1, 1].forEach(s => [-2.5, 2.5].forEach(z => box(.06, 3, 1.6, emi(0x1c2a4a), s * (ROOM.x + 1), 2.8, z)));
+        sph(.35, emi(0xfff0b0), 0, 4.6, .5);
+        box(6, .02, 5, lam(0x5a2a2a), 0, .012, 1.4);
+      },
+      tea() {
+        for (let x = -7; x <= 7; x += 2) box(.05, .02, 13, lam(0x9a9560), x, .011, 0);
+        for (let z = -6; z <= 7; z += 2) box(15, .02, .05, lam(0x9a9560), 0, .011, z);
+        for (let x = -7; x <= 7; x += 1) box(.08, 6, .06, lam(sk.trim), x, 3, -5.82);
+        for (let y = .5; y <= 6; y += 1) box(15, .08, .06, lam(sk.trim), 0, y, -5.82);
+        box(2.2, .35, 1.1, lam(sk.trim), 0, .18, -4.6);
+        sph(.2, lam(0x4a5a3a), -.3, .53, -4.6);
+        [.25, .55].forEach(x => cyl(.07, .05, .1, lam(0xe8e0cc), x, .4, -4.5));
+        box(1, 2.2, .03, lam(0xf6f1e1), 3.6, 3, -5.75);
+        [3.45, 3.75].forEach(x => box(.05, 1.3, .02, lam(0x2a2a2a), x, 3, -5.72));
+        box(.5, .4, .5, lam(0x6b5236), -4.8, .2, -4.6);
+        cyl(.05, .07, .8, lam(0x5a4030), -4.8, .8, -4.6);
+        [[-4.9, 1.3, -4.6], [-4.55, 1.15, -4.5], [-5.1, 1.1, -4.7]].forEach(([x, y, z]) => sph(.3, lam(0x5d7a35), x, y, z));
+        [-6, 6].forEach(x => box(.5, .9, .5, emi(0xfff2d0), x, .45, -4.8));
+      },
+      park() {
+        box(18, .02, 1.3, lam(0xcfc6b0), 0, .012, 6);
+        box(1.3, .02, 9, lam(0xcfc6b0), 0, .012, -5.4);
+        [[-6.6, -4.8], [6.6, -4.6], [-7.6, 1], [7.6, 1.6], [-3.2, -6.4], [3.6, -6.2], [-7.6, 5.2], [7.8, 5.4]].forEach(([x, z], i) => {
+          cyl(.16, .22, 1.8, lam(0x6b4a30), x, .9, z, env, 8);
+          sph(1.05 + (i % 3) * .15, lam(i % 2 ? 0x4e7a3a : 0x5d8a44), x, 2.4, z);
+          sph(.7, lam(0x6a9a4c), x + .5, 2.0, z + .3);
+        });
+        park.lamps = [];
+        [[-4.2, -4.4], [4.2, -4.4], [-7, 3.2], [7, 3.2]].forEach(([x, z]) => {
+          cyl(.05, .07, 3, lam(0x3a3a3a), x, 1.5, z, env, 8);
+          const m = new T.MeshBasicMaterial({ color: 0x8a8a80 });
+          park.lamps.push(sph(.2, m, x, 3.1, z));
+        });
+        [-2.4, 2.4].forEach(x => {
+          box(1.8, .08, .5, lam(0x8a5a32), x, .45, -5.2);
+          box(1.8, .5, .06, lam(0x8a5a32), x, .8, -5.45);
+          [-.75, .75].forEach(dx => box(.06, .45, .45, lam(0x333333), x + dx, .22, -5.2));
+        });
+        [-1, 1].forEach(sd => box(.6, .7, 14, lam(0x3f6b32), sd * 8.4, .35, 0));
+        park.windows = [];
+        const winMat = new T.MeshBasicMaterial({ color: 0xffe9a8 });
+        for (let i = 0; i < 12; i++) {
+          const w = 1.6 + (i * 7 % 5) * .4, h = 3 + (i * 13 % 7) * 1.1, x = -15 + i * 2.7;
+          box(w, h, 1.5, lam(i % 2 ? 0x5b6680 : 0x4c5670), x, h / 2, -16);
+          for (let r = 1; r < h - .5; r += 1.1) { const win = box(w * .6, .3, .05, winMat, x, r, -15.2); win.visible = false; park.windows.push(win); }
+        }
+        park.sun = sph(1.4, new T.MeshBasicMaterial({ color: 0xfff1b0 }), 6, 9, -24);
+      }
+    };
+    const park = { lamps: [], windows: [], sun: null, p: 0, birds: [] };
+
+    function build(name) {
+      sceneName = SKINS[name] ? name : 'temple';
+      sk = SKINS[sceneName];
+      if (env) { sc.remove(env); disposeEnv(env); }
+      clearPark();
+      env = new T.Group(); sc.add(env);
+      seats.length = 0;
+      sc.background = new T.Color(sk.bg);
+      sc.fog = new T.Fog(sk.bg, sceneName === 'park' ? 26 : 16, sceneName === 'park' ? 60 : 34);
+      hemi.intensity = .75; hemi.color.set(0xffffff); sun.intensity = .5; sun.color.set(0xffffff);
+      glow.color.set(sk.light);
+      glow.position.set(0, sceneName === 'cabin' ? 1.2 : 3, sceneName === 'cabin' ? -4.6 : -3.5);
+      box(ROOM.x * 2 + 2.6, .2, ROOM.z * 2 + 6, lam(sk.floor), 0, -.1, 1.5);
+      if (sceneName === 'park') box(60, .1, 60, lam(0x6f9650), 0, -.16, -10);
+      else {
+        box(ROOM.x * 2 + 2.6, 6, .3, lam(sk.wall), 0, 3, -ROOM.z - .15);
+        [-1, 1].forEach(s => box(.3, 6, ROOM.z * 2 + 4, lam(sk.wall), s * (ROOM.x + 1.15), 3, 1));
+      }
+      DECOR[sceneName]();
+      SEAT_POS.forEach(p => {
+        const g = new T.Group(); g.position.set(p.x, 0, p.z); env.add(g);
+        if (sceneName === 'temple') cyl(.45, .48, .15, lam(sk.seat), 0, .075, 0, g, 20);
+        else if (sceneName === 'cabin') cyl(.32, .35, .32, lam(sk.seat), 0, .16, 0, g, 12);
+        else if (sceneName === 'library') { box(.8, .32, .75, lam(sk.seat), 0, .16, 0, g); box(.8, .6, .12, lam(sk.seat), 0, .6, .38, g); }
+        else if (sceneName === 'park') { box(.95, .05, 1.15, lam(sk.seat), 0, .025, 0, g); box(.95, .055, .08, lam(0xa77d4a), 0, .027, 0, g); box(.08, .055, 1.15, lam(0xb58a55), .3, .026, 0, g); }
+        else box(.85, .1, .85, lam(sk.seat), 0, .05, 0, g);
+        const ring = new T.Mesh(new T.RingGeometry(.52, .62, 32), new T.MeshBasicMaterial({ color: 0x8dae80, transparent: true, opacity: .9, depthWrite: false }));
+        ring.rotation.x = -Math.PI / 2; ring.position.y = .03; ring.visible = false; g.add(ring);
+        if (sceneName === 'park') {
+          /* 紙箱旁的泡麵：有人在發呆才會出現，還會冒煙 */
+          const cup = cyl(.1, .075, .15, lam(0xf3ead6), .62, .075, -.3, g, 12);
+          add(new T.Mesh(new T.CylinderGeometry(.1, .1, .02, 12), lam(0xd9342a)), cup, 0, .07, 0);
+          const steam = sph(.07, new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .55, depthWrite: false }), .62, .25, -.3, g);
+          cup.visible = steam.visible = false;
+          seats.push({ ring, stick: cup, ember: steam, cup: true });
+          return;
+        }
+        cyl(.09, .11, .08, lam(sk.trim), 0, .04, -.62, g, 10);
+        const stick = cyl(sk.stickR, sk.stickR, 1, lam(sk.stick), 0, .08, -.62, g, 8);
+        stick.geometry.translate(0, .5, 0);
+        const ember = sceneName === 'cabin'
+          ? add(new T.Mesh(new T.ConeGeometry(.05, .14, 8), emi(sk.ember)), g, 0, 0, -.62)
+          : sph(sceneName === 'library' ? .09 : .035, emi(sk.ember), 0, 0, -.62, g);
+        stick.visible = ember.visible = false;
+        seats.push({ ring, stick, ember });
+      });
+      avs.forEach(av => { av.hair.visible = sceneName !== 'temple'; });
+    }
+
+    /* ---------- 人物 ---------- */
+    const robeMats = ROBE.map(c => new T.MeshLambertMaterial({ color: c }));
+    const skinMats = SKIN.map(c => new T.MeshLambertMaterial({ color: c }));
+    const hairMat = new T.MeshLambertMaterial({ color: 0x3a302a }), eyeMat = new T.MeshBasicMaterial({ color: 0x2a2220 });
+    const geo = {
+      body: new T.CylinderGeometry(.2, .36, .62, 16), head: new T.SphereGeometry(.3, 20, 16),
+      hair: new T.SphereGeometry(.315, 20, 10, 0, Math.PI * 2, 0, Math.PI * .55), leg: new T.CylinderGeometry(.075, .075, .22, 8),
+      hand: new T.SphereGeometry(.075, 10, 8), eye: new T.SphereGeometry(.034, 8, 6), shadow: new T.CircleGeometry(.38, 20), ring: new T.RingGeometry(.42, .6, 28)
+    };
+    geo.leg.translate(0, -.11, 0);
+    const shadowMat = new T.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: .22, depthWrite: false });
+    function labelSprite(text, strong) {
+      const c = document.createElement('canvas'); c.width = 128; c.height = 48;
+      const x = c.getContext('2d');
+      x.font = (strong ? '700 ' : '400 ') + '28px "Noto Sans TC","Microsoft JhengHei",sans-serif';
+      x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.fillStyle = strong ? 'rgba(20,28,20,.72)' : 'rgba(20,20,20,.45)';
+      const w = x.measureText(text).width + 24;
+      x.beginPath(); x.roundRect ? x.roundRect(64 - w / 2, 6, w, 36, 18) : x.rect(64 - w / 2, 6, w, 36); x.fill();
+      x.fillStyle = '#fff'; x.fillText(text, 64, 25);
+      const s = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(c), depthTest: false, transparent: true }));
+      s.scale.set(.75, .28, 1); s.position.y = 1.72; s.renderOrder = 10;
+      return s;
+    }
+    function makeAvatar(label) {
+      const root = new T.Group(), bodyG = new T.Group(); root.add(bodyG);
+      const body = add(new T.Mesh(geo.body, robeMats[0]), bodyG, 0, .53, 0);
+      const headG = add(new T.Group(), bodyG, 0, .86, 0);
+      const head = add(new T.Mesh(geo.head, skinMats[0]), headG, 0, .26, 0);
+      const hair = add(new T.Mesh(geo.hair, hairMat), headG, 0, .29, -.01);
+      add(new T.Mesh(geo.eye, eyeMat), headG, -.1, .27, .27);
+      add(new T.Mesh(geo.eye, eyeMat), headG, .1, .27, .27);
+      const legL = add(new T.Mesh(geo.leg, robeMats[0]), bodyG, -.1, .24, 0);
+      const legR = add(new T.Mesh(geo.leg, robeMats[0]), bodyG, .1, .24, 0);
+      const handL = add(new T.Mesh(geo.hand, skinMats[0]), bodyG, -.3, .55, 0);
+      const handR = add(new T.Mesh(geo.hand, skinMats[0]), bodyG, .3, .55, 0);
+      const sh = add(new T.Mesh(geo.shadow, shadowMat), root, 0, .015, 0); sh.rotation.x = -Math.PI / 2;
+      const ring = add(new T.Mesh(geo.ring, new T.MeshBasicMaterial({ color: 0xffc06a, transparent: true, opacity: 0, depthWrite: false })), root, 0, .03, 0);
+      ring.rotation.x = -Math.PI / 2;
+      let tag = null;
+      if (label) { tag = labelSprite(label, label === '你'); root.add(tag); }
+      hair.visible = sceneName !== 'temple';
+      sc.add(root);
+      return { root, bodyG, headG, body, head, hair, legL, legR, handL, handR, ring, tag, pos: root.position, ry: 0, walkT: 0, greetAt: -99, c: -1, k: -1, sitting: false, brain: { seat: -1, tgt: null, wait: 0 } };
+    }
+    const WHITE = new T.Color(0xffffff);
+    const SKY = [new T.Color(0x9cc7e8), new T.Color(0xf2a25c), new T.Color(0x2e2b4a)], skyC = new T.Color();
+    const birdGeo = { body: new T.SphereGeometry(.12, 10, 8), head: new T.SphereGeometry(.07, 8, 6), beak: new T.ConeGeometry(.025, .07, 6) };
+    const birdMat = new T.MeshLambertMaterial({ color: 0x8a8f99 }), birdHead = new T.MeshLambertMaterial({ color: 0x5f6f7a }), beakMat = new T.MeshLambertMaterial({ color: 0xe0a040 });
+    function makeBird(mine) {
+      const g = new T.Group();
+      const b = add(new T.Mesh(birdGeo.body, birdMat), g, 0, .12, 0); b.scale.set(1, .85, 1.45);
+      const h = add(new T.Mesh(birdGeo.head, birdHead), g, 0, .24, .15);
+      const k = add(new T.Mesh(birdGeo.beak, beakMat), h, 0, 0, .08); k.rotation.x = Math.PI / 2;
+      const p0 = mine ? { x: (Math.random() - .5) * 10, y: 5, z: -8 } : { x: (Math.random() - .5) * 12, y: 0, z: -2 + Math.random() * 7 };
+      g.position.set(p0.x, p0.y, p0.z);
+      sc.add(g);
+      return { g, body: b, h, mine, tgt: null, wait: 0, hop: 0, ry: 0 };
+    }
+    function parkFrame(dt, t, now) {
+      /* 發呆的進度決定天色：沒在發呆是下午，越接近結束越像傍晚，結束後天黑、路燈亮 */
+      let p = 0;
+      if (me.s === 'sit' && me.un > me.st) p = Math.min(1, Math.max(0, (now - me.st) / (me.un - me.st)));
+      else if (me.s === 'rest') p = 1;
+      if (park.first) { park.p = p; park.first = false; } else park.p += (p - park.p) * Math.min(1, dt * .8);
+      const q = park.p;
+      if (q < .6) skyC.lerpColors(SKY[0], SKY[1], q / .6); else skyC.lerpColors(SKY[1], SKY[2], (q - .6) / .4);
+      sc.background.copy(skyC); sc.fog.color.copy(skyC);
+      hemi.intensity = .8 - q * .45; sun.intensity = .5 - q * .32;
+      hemi.color.copy(skyC).lerp(WHITE, .45 - q * .25);
+      sun.color.setHSL(.1, .6 * q, .95 - q * .25);
+      if (park.sun) { park.sun.position.set(6 - q * 3, 9 - q * 9.5, -24); park.sun.material.color.setHSL(.13 - q * .08, .9, .75 - q * .15); }
+      const lit = q > .82;
+      park.lamps.forEach(l => l.material.color.set(lit ? 0xfff0b0 : 0x8a8a80));
+      park.windows.forEach((w, i) => { w.visible = q > .7 && (i * 7) % 3 !== 0; });
+      const meAv = avs.get('me');
+      const n = day.beads % 108;
+      const want = Math.min(12, n || (day.beads ? 12 : 0)) + 4;
+      while (park.birds.length < want) park.birds.push(makeBird(park.birds.length >= 4));
+      while (park.birds.length > want) { const b = park.birds.pop(); sc.remove(b.g); }
+      park.birds.forEach((b, i) => {
+        const ax = b.mine && meAv ? meAv.pos.x : 0, az = b.mine && meAv ? meAv.pos.z : 1.5;
+        if (!b.tgt && now > b.wait) {
+          const r = b.mine ? .8 + Math.random() * 1.2 : 6;
+          const a = Math.random() * Math.PI * 2;
+          b.tgt = { x: Math.max(-7.5, Math.min(7.5, ax + Math.cos(a) * r)), z: Math.max(-5.5, Math.min(6.5, az + Math.sin(a) * r * (b.mine ? 1 : .7))) };
+        }
+        const P = b.g.position;
+        if (P.y > 0) P.y = Math.max(0, P.y - dt * 2.2);
+        if (b.tgt) {
+          const dx = b.tgt.x - P.x, dz = b.tgt.z - P.z, d = Math.hypot(dx, dz);
+          if (d < .05) { b.tgt = null; b.wait = now + 1000 + Math.random() * 4000; }
+          else {
+            const st = Math.min(d, (P.y > 0 ? 3 : 1.1) * dt);
+            P.x += dx / d * st; P.z += dz / d * st;
+            b.ry = Math.atan2(dx, dz); b.hop += dt * 14;
+          }
+        }
+        b.g.rotation.y = b.ry;
+        b.body.position.y = .12 + (b.tgt && P.y <= 0 ? Math.abs(Math.sin(b.hop)) * .05 : 0);
+        b.h.position.y = !b.tgt ? .24 - Math.max(0, Math.sin(t * 3 + i * 1.7)) * .1 : .24;
+      });
+    }
+    function clearPark() { park.birds.forEach(b => sc.remove(b.g)); park.birds = []; park.lamps = []; park.windows = []; park.sun = null; park.p = 0; park.first = true; }
+    function removeAvatar(av) {
+      sc.remove(av.root);
+      av.ring.material.dispose();
+      if (av.tag) { av.tag.material.map.dispose(); av.tag.material.dispose(); }
+    }
+    function paint(av, c, k) {
+      if (av.c === c && av.k === k) return;
+      av.c = c; av.k = k;
+      [av.body, av.legL, av.legR].forEach(m => { m.material = robeMats[c]; });
+      [av.head, av.handL, av.handR].forEach(m => { m.material = skinMats[k]; });
+    }
+    function turnTo(av, target, dt) { let d = target - av.ry; d = Math.atan2(Math.sin(d), Math.cos(d)); av.ry += d * Math.min(1, dt * 10); }
+    function stepToward(av, tx, tz, dt, speed) {
+      const dx = tx - av.pos.x, dz = tz - av.pos.z, d = Math.hypot(dx, dz);
+      if (d < .03) return false;
+      const s = Math.min(d, speed * dt);
+      av.pos.x += dx / d * s; av.pos.z += dz / d * s;
+      turnTo(av, Math.atan2(dx, dz), dt);
+      av.walkT += dt * 10;
+      return true;
+    }
+    function pose(av, mode, t, seatTop) {
+      const sit = mode === 'sit', walk = mode === 'walk';
+      av.sitting = sit;
+      av.bodyG.position.y = sit ? seatTop - .2 : (walk ? Math.abs(Math.sin(av.walkT)) * .05 : 0);
+      const sw = walk ? Math.sin(av.walkT) * .6 : 0;
+      av.legL.rotation.set(sit ? -Math.PI / 2 : sw, 0, sit ? .35 : 0);
+      av.legR.rotation.set(sit ? -Math.PI / 2 : -sw, 0, sit ? -.35 : 0);
+      if (sit) { av.handL.position.set(-.05, .64, .22); av.handR.position.set(.05, .64, .22); }
+      else { av.handL.position.set(-.3, .55, walk ? -sw * .2 : 0); av.handR.position.set(.3, .55, walk ? sw * .2 : 0); }
+      av.body.scale.y = sit ? 1 + Math.sin(t * 1.05 + av.c) * .015 : 1;
+      const g = (t - av.greetAt) / 2.4;
+      if (g >= 0 && g < 1) {
+        const k = Math.sin(g * Math.PI);
+        av.headG.rotation.x = k * .45;
+        av.ring.material.opacity = k * .9;
+        av.ring.scale.setScalar(1 + g * .5);
+      } else { av.headG.rotation.x = 0; av.ring.material.opacity = 0; }
+      av.root.rotation.y = av.ry;
+    }
+
+    /* ---------- 操作 ---------- */
+    const avs = new Map();
+    const keys = new Set();
+    let camYaw = 0, camDist = 7, joy = { x: 0, y: 0 }, autoTgt = null, lastPush = 0, lastHint = 0, wasSit = false;
+    const typing = () => { const a = document.activeElement; return a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'SELECT'); };
+    const MOVE_KEYS = { arrowup: 'f', w: 'f', arrowdown: 'b', s: 'b', arrowleft: 'l', a: 'l', arrowright: 'r', d: 'r' };
+    addEventListener('keydown', e => {
+      if (typing() || !ov.hidden) return;
+      const k = MOVE_KEYS[e.key.toLowerCase()];
+      if (!k) return;
+      const r = cv.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      keys.add(k); autoTgt = null;
+      if (e.key.startsWith('Arrow')) e.preventDefault();
+    });
+    addEventListener('keyup', e => { const k = MOVE_KEYS[e.key.toLowerCase()]; if (k) keys.delete(k); });
+    addEventListener('blur', () => keys.clear());
+
+    let drag = null;
+    cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, moved: 0 }; cv.setPointerCapture(e.pointerId); });
+    cv.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x; drag.moved += Math.abs(dx) + Math.abs(e.clientY - drag.y);
+      drag.x = e.clientX; drag.y = e.clientY;
+      camYaw -= dx * .006;
+    });
+    const ray = new T.Raycaster(), floor = new T.Plane(new T.Vector3(0, 1, 0), 0), hit = new T.Vector3(), ndc = new T.Vector2();
+    cv.addEventListener('pointerup', e => {
+      if (!drag) return;
+      const click = drag.moved < 6; drag = null;
+      if (!click) return;
+      const r = cv.getBoundingClientRect();
+      ndc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+      ray.setFromCamera(ndc, cam);
+      if (ray.ray.intersectPlane(floor, hit)) {
+        if (me.s === 'sit') { hintSit(); return; }
+        autoTgt = { x: clampX(hit.x), z: clampZ(hit.z) };
+      }
+    });
+    cv.addEventListener('wheel', e => { e.preventDefault(); camDist = Math.max(4, Math.min(11, camDist + e.deltaY * .005)); }, { passive: false });
+    $('#rotL').onclick = () => { camYaw += Math.PI / 8; };
+    $('#rotR').onclick = () => { camYaw -= Math.PI / 8; };
+    const joyEl = $('#joy'), knob = $('#knob');
+    let joyId = null;
+    const joyMove = e => {
+      const r = joyEl.getBoundingClientRect(), R = r.width / 2;
+      let dx = e.clientX - (r.left + R), dy = e.clientY - (r.top + R);
+      const d = Math.hypot(dx, dy); if (d > R) { dx = dx / d * R; dy = dy / d * R; }
+      knob.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      joy = { x: dx / R, y: -dy / R };
+    };
+    joyEl.addEventListener('pointerdown', e => { joyId = e.pointerId; joyEl.setPointerCapture(e.pointerId); autoTgt = null; joyMove(e); });
+    joyEl.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e); });
+    const joyEnd = () => { joyId = null; joy = { x: 0, y: 0 }; knob.style.transform = ''; };
+    joyEl.addEventListener('pointerup', joyEnd); joyEl.addEventListener('pointercancel', joyEnd);
+    function hintSit() {
+      const n = Date.now(); if (n - lastHint < 6000) return; lastHint = n;
+      announce('入定中，先按「' + V.stop + '」才能走動');
+    }
+
+    function claimedSeats(skipKey) {
+      const set = new Set();
+      for (const it of hallList) {
+        if (it.key === skipKey || it.k === 'demo') continue;
+        const seat = it.k === 'me' ? me.seat : it.seat;
+        if (Number.isInteger(seat) && seat >= 0 && seat < SEATS && eff(it, Date.now()) === 'sit') set.add(seat);
+      }
+      return set;
+    }
+    function pickSeat() {
+      const av = avs.get('me'), taken = claimedSeats('me');
+      const px = av ? av.pos.x : 0, pz = av ? av.pos.z : 4;
+      let best = -1, bd = 1e9;
+      SEAT_POS.forEach((p, i) => { if (taken.has(i)) return; const d = Math.hypot(p.x - px, p.z - pz); if (d < bd) { bd = d; best = i; } });
+      return best;
+    }
+
+    function resize() {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix();
+    }
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); else addEventListener('resize', resize);
+    resize();
+
+    let prev = performance.now();
+    function frame(nowMs) {
+      requestAnimationFrame(frame);
+      const dt = Math.min(.05, (nowMs - prev) / 1000); prev = nowMs;
+      const t = nowMs / 1000, now = Date.now();
+      const present = new Set();
+      const real = claimedSeats(null);
+      const demoTaken = new Set();
+      avs.forEach(av => { if (av.brain.seat >= 0) demoTaken.add(av.brain.seat); });
+      const occ = new Map();
+
+      for (const it of hallList) {
+        present.add(it.key);
+        let av = avs.get(it.key);
+        const fresh = !av;
+        if (fresh) {
+          av = makeAvatar(it.k === 'me' ? '你' : it.k === 'demo' ? '示範' : '');
+          avs.set(it.key, av);
+          av.pos.set(clampX((Math.random() - .5) * 3), 0, ROOM.z + .7);
+          av.ry = Math.PI;
+        }
+        paint(av, idx(it.c, 5), idx(it.sk, 3));
+        const s = eff(it, now);
+        let mode = 'stand', seat = -1;
+
+        if (it.k === 'me') {
+          seat = s === 'sit' && Number.isInteger(me.seat) && me.seat >= 0 ? me.seat : -1;
+          if (fresh) {
+            if (seat >= 0) { av.pos.set(SEAT_POS[seat].x, 0, SEAT_POS[seat].z); }
+            else autoTgt = { x: clampX((Math.random() - .5) * 4), z: 4 };
+          }
+          if (wasSit && s !== 'sit' && av.sitting) { autoTgt = { x: av.pos.x, z: clampZ(av.pos.z + 1) }; }
+          wasSit = s === 'sit';
+          if (s === 'sit') {
+            if (seat >= 0) {
+              const p = SEAT_POS[seat];
+              if (stepToward(av, p.x, p.z, dt, 3.2)) mode = 'walk';
+              else { mode = 'sit'; av.pos.x = p.x; av.pos.z = p.z; turnTo(av, Math.PI, dt); }
+            } else { mode = 'sit'; turnTo(av, Math.PI, dt); }
+            if (keys.size || joy.x || joy.y) hintSit();
+          } else {
+            let fx = joy.x, fy = joy.y;
+            if (keys.has('f')) fy += 1; if (keys.has('b')) fy -= 1; if (keys.has('l')) fx -= 1; if (keys.has('r')) fx += 1;
+            const m = Math.hypot(fx, fy);
+            if (m > .05) {
+              fx /= Math.max(1, m); fy /= Math.max(1, m);
+              const vx = -Math.sin(camYaw) * fy + Math.cos(camYaw) * fx, vz = -Math.cos(camYaw) * fy - Math.sin(camYaw) * fx;
+              av.pos.x = clampX(av.pos.x + vx * 2.8 * dt); av.pos.z = clampZ(av.pos.z + vz * 2.8 * dt);
+              turnTo(av, Math.atan2(vx, vz), dt); av.walkT += dt * 10; mode = 'walk';
+            } else if (autoTgt) {
+              if (stepToward(av, autoTgt.x, autoTgt.z, dt, 2.8)) mode = 'walk'; else autoTgt = null;
+            }
+          }
+          if (mode === 'walk' && now - lastPush > 150) { lastPush = now; push(); }
+          if (mode !== 'walk' && av._moving) push();
+          av._moving = mode === 'walk';
+        } else if (it.k === 'peer') {
+          seat = s === 'sit' && Number.isInteger(it.seat) && it.seat >= 0 ? it.seat : -1;
+          let tx = fin(it.x), tz = fin(it.z);
+          if (seat >= 0) { tx = SEAT_POS[seat].x; tz = SEAT_POS[seat].z; }
+          if (tx !== null && tz !== null) {
+            const far = Math.hypot(tx - av.pos.x, tz - av.pos.z) > 6;
+            if (stepToward(av, clampX(tx), clampZ(tz), dt, far ? 6 : 3.4)) mode = 'walk';
+            else if (seat >= 0) { mode = 'sit'; turnTo(av, Math.PI, dt); }
+            else if (fin(it.r) !== null) turnTo(av, it.r, dt);
+          }
+        } else {
+          const b = av.brain;
+          if (s === 'sit') {
+            if (b.seat < 0 || real.has(b.seat)) {
+              demoTaken.delete(b.seat); b.seat = -1;
+              const free = []; SEAT_POS.forEach((p, i) => { if (!real.has(i) && !demoTaken.has(i)) free.push(i); });
+              if (free.length) { b.seat = free[Math.floor(Math.random() * free.length)]; demoTaken.add(b.seat); }
+            }
+            seat = b.seat;
+            if (seat >= 0) {
+              const p = SEAT_POS[seat];
+              if (stepToward(av, p.x, p.z, dt, 2.4)) mode = 'walk'; else { mode = 'sit'; turnTo(av, Math.PI, dt); }
+            }
+          } else {
+            if (b.seat >= 0) { demoTaken.delete(b.seat); b.seat = -1; b.tgt = { x: av.pos.x, z: clampZ(av.pos.z + 1) }; }
+            if (!b.tgt && now > b.wait) b.tgt = { x: clampX((Math.random() - .5) * 12), z: clampZ(-3 + Math.random() * 8.5) };
+            if (b.tgt) { if (stepToward(av, b.tgt.x, b.tgt.z, dt, 1.6)) mode = 'walk'; else { b.tgt = null; b.wait = now + 3000 + Math.random() * 7000; } }
+          }
+        }
+        pose(av, mode, t, sk.top);
+        if (mode === 'sit' && seat >= 0) {
+          const left = it.un > it.st ? Math.min(1, Math.max(.03, (it.un - now) / (it.un - it.st))) : 1;
+          occ.set(seat, { left, grp: !!(curSess && curSess.live && it.g === curSess.key) });
+        }
+      }
+      avs.forEach((av, k) => { if (!present.has(k)) { removeAvatar(av); avs.delete(k); } });
+
+      seats.forEach((st, i) => {
+        const o = occ.get(i);
+        st.stick.visible = st.ember.visible = !!o;
+        st.ring.visible = !!(o && o.grp);
+        if (o && st.cup) {
+          st.ember.position.y = .25 + ((t * .4 + i * .13) % 1) * .2;
+          st.ember.material.opacity = .55 * (1 - ((t * .4 + i * .13) % 1));
+        } else if (o) {
+          const h = sk.stickH * o.left;
+          st.stick.scale.y = h;
+          st.ember.position.y = .08 + h + (sceneName === 'cabin' ? .06 : 0);
+          if (sceneName === 'cabin') st.ember.scale.y = 1 + Math.sin(t * 9 + i) * .12;
+        }
+      });
+      if (sceneName === 'cabin') glow.intensity = 1.1 + Math.sin(t * 7) * .12 + Math.sin(t * 13.3) * .08;
+      else glow.intensity = 1;
+      if (sceneName === 'park') parkFrame(dt, t, now);
+
+      const meAv = avs.get('me');
+      if (meAv) {
+        const k = 1 - Math.pow(.002, dt);
+        const cx = meAv.pos.x + Math.sin(camYaw) * camDist, cz = meAv.pos.z + Math.cos(camYaw) * camDist;
+        cam.position.x += (cx - cam.position.x) * k;
+        cam.position.z += (cz - cam.position.z) * k;
+        const low = sceneName === 'park';
+        cam.position.y += ((low ? 1.3 + camDist * .2 : 2.2 + camDist * .3) - cam.position.y) * k;
+        cam.lookAt(meAv.pos.x, low ? 1.5 : .9, meAv.pos.z);
+      }
+      renderer.render(sc, cam);
+    }
+    stage.hidden = false;
+    $('#seats').hidden = true;
+    cam.position.set(0, 4.3, ROOM.z + 7);
+    requestAnimationFrame(frame);
+
+    return {
+      setScene: build,
+      greet(key) { const av = avs.get(key); if (av) av.greetAt = performance.now() / 1000; },
+      pickSeat,
+      pose() {
+        const av = avs.get('me');
+        if (!av) return {};
+        return { x: Math.round(av.pos.x * 100) / 100, z: Math.round(av.pos.z * 100) / 100, r: Math.round(av.ry * 100) / 100, seat: me.s === 'sit' && Number.isInteger(me.seat) ? me.seat : -1 };
+      }
+    };
+  }
+
+  let curSess = null;
+
+  /* ---------- loop ---------- */
+  function tick() {
+    const now = Date.now();
+    if (me.s === 'sit' && now >= me.un) finish(false);
+    if (testSess && now >= testSess.end + 1000) testSess = null;
+    if (hostSess && now >= hostSess.end + 1000) hostSess = null;
+    if (demoOn && Math.random() < 0.012) { const i = Math.floor(Math.random() * demo.length); greetSeat('d' + demoGen + ':' + i); }
+    const sess = currentSession(now);
+    curSess = sess;
+    if (demoOn) tickDemo(now, sess);
+    renderGroup(now, sess);
+    renderAltar(now); renderHall(now, sess); renderNext(now, sess);
+  }
+  demo = makeDemo();
+  try { w3 = initWorld(); } catch (e) { w3 = null; $('#stage').hidden = true; $('#seats').hidden = false; }
+  applyScene(); tick();
+  setInterval(tick, 1000);
+  if (me.s === 'sit') wake(true);
+
+  /* ---------- room ---------- */
+  const setConn = c => {
+    const el = $('#chipConn'); el.dataset.c = c;
+    el.innerHTML = '<span class="dot"></span>' + (c === 'on' ? '已連上，和大家同在' : c === 'wait' ? '連線中' : '未連線，只有你一人');
+  };
+  /* ---------- 自架網站用的即時連線（Supabase Realtime），對外介面和 claude.ai 的 room 一樣 ---------- */
+  const CFG = window.SILENT_HALL_CONFIG || null;
+  function loadScript(src) {
+    return new Promise((ok, bad) => { const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = bad; document.head.appendChild(el); });
+  }
+  async function supabaseRoom() {
+    if (!CFG || !CFG.supabaseUrl || !CFG.supabaseAnonKey) return null;
+    if (!window.supabase) await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
+    const client = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: false } });
+    const myId = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g, '').slice(0, 16);
+    const ch = client.channel(CFG.channel || 'silent-hall', { config: { presence: { key: myId }, broadcast: { self: true } } });
+    const mine = {}, peerFns = [], connFns = [], topicFns = { session: [], bow: [] };
+    let online = false, peers = [], prevKeys = new Set(), trackT = null, lastTrack = 0;
+    function track() {
+      clearTimeout(trackT);
+      trackT = setTimeout(() => { lastTrack = Date.now(); if (online) ch.track({ p: mine }).catch(() => {}); }, Math.max(0, 250 - (Date.now() - lastTrack)));
+    }
+    ch.on('presence', { event: 'sync' }, () => {
+      const st = ch.presenceState();
+      const next = Object.keys(st).map(k => {
+        const metas = st[k] || [], m = metas[metas.length - 1] || {};
+        const p = m.p && typeof m.p === 'object' ? m.p : {};
+        return { peer: k, by: null, isMe: k === myId, sameTab: k === myId, kind: 'viewer', guest: false, presence: p, updatedAt: Date.now() };
+      });
+      const keys = new Set(next.map(p => p.peer));
+      const joined = next.filter(p => !prevKeys.has(p.peer)), left = peers.filter(p => !keys.has(p.peer));
+      prevKeys = keys; peers = next;
+      peerFns.forEach(fn => { try { fn({ peers, joined, left, updated: [] }); } catch (e) {} });
+    });
+    Object.keys(topicFns).forEach(topic => ch.on('broadcast', { event: topic }, ({ payload }) => {
+      const pl = payload || {}, peer = typeof pl.peer === 'string' ? pl.peer.slice(0, 40) : '';
+      topicFns[topic].forEach(fn => { try { fn({ topic, data: pl.data, peer, by: null, isMe: peer === myId, sameTab: peer === myId, kind: 'viewer', guest: false }); } catch (e) {} });
+    }));
+    ch.subscribe(status => {
+      const on = status === 'SUBSCRIBED';
+      if (on !== online) { online = on; connFns.forEach(fn => fn(on)); }
+      if (on) track();
+    });
+    return {
+      presence(patch) { for (const k in patch) { if (patch[k] === null) delete mine[k]; else mine[k] = patch[k]; } track(); return Promise.resolve(); },
+      onPeers(fn) { peerFns.push(fn); return () => {}; },
+      onConnection(fn, onErr) { connFns.push(fn); setTimeout(() => fn(online), 0); return () => {}; },
+      connected: () => online,
+      on(topic, fn) { (topicFns[topic] = topicFns[topic] || []).push(fn); return () => {}; },
+      emit(topic, data) {
+        if (!online) return Promise.resolve();
+        return ch.send({ type: 'broadcast', event: topic, payload: { peer: myId, data } }).then(() => {});
+      }
+    };
+  }
+  /* 自架版沒有帳號系統，主持人改用密語。這只是把按鈕藏起來，不是真正的權限控管 */
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  function setupHostLogin() {
+    if (!CFG || !CFG.hostHash || !(window.crypto && crypto.subtle)) return;
+    const want = String(CFG.hostHash).toLowerCase();
+    let ok = false;
+    try { ok = sessionStorage.getItem('jz.host') === want; } catch (e) {}
+    if (ok) { isHost = true; $('#hostBox').hidden = false; return; }
+    $('#hostLogin').hidden = false;
+    const go = async () => {
+      const v = $('#hostPass').value;
+      if (!v) return;
+      if (await sha256(v) === want) {
+        isHost = true; $('#hostBox').hidden = false; $('#hostLogin').hidden = true;
+        try { sessionStorage.setItem('jz.host', want); } catch (e) {}
+        hostEmit();
+      } else $('#hostMsg').textContent = '密語不對';
+    };
+    $('#hostGo').onclick = go;
+    $('#hostPass').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  }
+
+  let dropTimer = null;
+  (async () => {
+    try { room = window.claude && window.claude.use ? await window.claude.use('room') : null; } catch (e) { room = null; }
+    const selfHosted = !room;
+    if (!room) { try { room = await supabaseRoom(); } catch (e) { room = null; } }
+    if (!room) { setConn('off'); return; }
+    room.on('session', msg => { const s = validHost(msg.data, Date.now()); if (s) { hostSess = s; tick(); } });
+    room.on('bow', msg => {
+      if (msg.sameTab) return;
+      greetSeat('p:' + msg.peer);
+      const who = (PEER_WORD[scene] || PEER_WORD.temple)[0];
+      announce('有' + who + '向大家' + GREET[scene].slice(0, 2) + '致意');
+    });
+    room.onPeers(ch => {
+      realPeers = ch.peers.filter(p => p.kind === 'viewer' && !(p.isMe && p.sameTab));
+      if (isHost && ch.joined.some(p => !p.isMe)) hostEmit();
+      tick();
+    }, () => { setConn('off'); realPeers = []; tick(); });
+    if (selfHosted) setupHostLogin();
+    else {
+      try {
+        const user = await window.claude.use('user');
+        isHost = user ? await user.canEdit() : false;
+      } catch (e) { isHost = false; }
+      $('#hostBox').hidden = !isHost;
+    }
+    /* 短暫斷線是正常的，超過 2 秒才顯示 */
+    room.onConnection(c => {
+      clearTimeout(dropTimer);
+      if (c) setConn('on'); else dropTimer = setTimeout(() => setConn('wait'), 2000);
+    }, () => setConn('off'));
+    push();
+  })();
+})();
+</script>
