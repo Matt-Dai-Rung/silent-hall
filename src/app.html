@@ -64,6 +64,39 @@ select{font:inherit;font-size:.85rem;color:var(--ink);background:var(--panel);bo
 .groupbar .gtxt{font-variant-numeric:tabular-nums;min-width:0}
 main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:18px}
 @media (max-width:820px){main{grid-template-columns:minmax(0,1fr)}}
+/* 手機：常用操作放在畫面底部，其餘設定收進抽屜 */
+.dock,.sheet-close,.scrim,.ohint .short{display:none}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:16}
+.dock .dclock{display:flex;flex-direction:column;min-width:0;flex:1;line-height:1.2}
+.dock .dclock span{font-size:.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock .dclock b{font-size:1.35rem;font-weight:500;font-variant-numeric:tabular-nums}
+.dock button{padding:9px 12px;white-space:nowrap}
+.nick{display:flex;align-items:center;gap:6px}
+.nick input[type=text]{width:9em;padding:4px 10px;font-size:.85rem}
+@media (max-width:820px){
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .stage{height:clamp(300px,calc(100vh - 300px),520px);height:clamp(300px,calc(100svh - 300px),520px)}
+  .ohint .long{display:none}
+  .ohint .short{display:inline}
+  .dock{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:15;gap:8px;align-items:center;background:var(--panel);border-top:1px solid var(--line);
+    padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+  .altar{position:fixed;left:0;right:0;bottom:0;z-index:17;max-height:82vh;max-height:82svh;overflow-y:auto;border-radius:16px 16px 0 0;
+    padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));
+    transform:translateY(105%);visibility:hidden;transition:transform .3s ease,visibility 0s linear .3s;box-shadow:0 -8px 30px rgba(0,0,0,.18)}
+  body.sheet .altar{transform:none;visibility:visible;transition:transform .3s ease}
+  body.sheet .scrim{display:block}
+  .sheet-close{display:inline-block;align-self:flex-end}
+  /* 手機上把 3D 畫面往上提：精簡標題、標籤和殿名列改成可左右滑 */
+  h1{font-size:1.5rem}
+  body .sub,body #hallHint,body .custom{display:none}
+  header{gap:8px}
+  .wrap{gap:12px}
+  body .chips,body .halls{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .chips::-webkit-scrollbar,.halls::-webkit-scrollbar{display:none}
+  .chip,.halls button,select{flex:none}
+  body .hall{padding:12px;gap:10px}
+  .hall-head h2{font-size:1.05rem}
+}
 section,aside{min-width:0}
 .hall{border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;
   background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 70%,transparent),transparent 70%)}
@@ -240,7 +273,7 @@ footer button{font-size:.8rem;padding:2px 8px}
     <section class="hall" aria-label="座席">
       <div class="hall-head">
         <h2 id="hallTitle">殿內</h2>
-        <p class="hint" id="hallHint">只看得到有人在、還剩多少。看不到是誰，也看不到在做什麼。</p>
+        <p class="hint" id="hallHint">只看得到有人在、還剩多少，看不到在做什麼。想讓朋友認出你，可以自己取暱稱。</p>
       </div>
       <div class="hallbar">
         <p class="arrive" id="arrive" aria-live="polite"></p>
@@ -252,7 +285,7 @@ footer button{font-size:.8rem;padding:2px 8px}
         <button type="submit">進入</button>
       </form>
       <div class="stage" id="stage" hidden>
-        <p class="ohint">方向鍵／WASD 或左下搖桿走動 · 拖曳畫面轉視角 · 點地板走過去 · 按「入定」會自己走到空位坐下</p>
+        <p class="ohint"><span class="long">方向鍵／WASD 或左下搖桿走動 · 拖曳畫面轉視角 · 點地板走過去 · 按「入定」會自己走到空位坐下</span><span class="short">搖桿走動 · 拖曳轉視角 · 點地板走過去</span></p>
         <div class="joy" id="joy" aria-hidden="true"><span class="knob" id="knob"></span></div>
         <div class="rot"><button id="rotL" aria-label="視角向左轉">⟲</button><button id="rotR" aria-label="視角向右轉">⟳</button></div>
       </div>
@@ -263,7 +296,8 @@ footer button{font-size:.8rem;padding:2px 8px}
         <span><i class="grp"></i>正在共修</span>
         <span id="lgDemo"><i class="demo"></i>示範同修（不是真人）</span>
         <span class="more" id="more" hidden></span>
-        <label class="toggle"><input type="checkbox" id="demoToggle"> 顯示示範同修</label>
+        <label class="toggle"><input type="checkbox" id="demoToggle"> 人少時顯示示範同修</label>
+        <label class="toggle"><input type="checkbox" id="namesToggle"> 顯示別人的暱稱</label>
       </div>
       <div class="host" id="hostBox" hidden>
         <span>主持人：為這一殿開一場臨時共修，30 秒後開始</span>
@@ -275,7 +309,8 @@ footer button{font-size:.8rem;padding:2px 8px}
       </div>
     </section>
 
-    <aside class="altar" aria-label="我的位置">
+    <aside class="altar" id="altar" aria-label="我的位置">
+      <button class="quiet sheet-close" id="sheetClose">收起 ✕</button>
       <div class="carry" id="carry" hidden>
         <div><strong>昨天留給今天的：</strong><span id="carryText"></span></div>
         <button class="quiet" id="carryClose">收起</button>
@@ -290,6 +325,7 @@ footer button{font-size:.8rem;padding:2px 8px}
         <span class="hint">我的模樣</span>
         <div class="swatches" id="robeSw" role="radiogroup" aria-label="衣服顏色"></div>
         <div class="swatches" id="skinSw" role="radiogroup" aria-label="膚色"></div>
+        <label class="nick"><span class="hint">暱稱</span><input type="text" id="nick" maxlength="8" placeholder="選填，最多 8 字" autocomplete="off"></label>
       </div>
       <div class="burner">
         <div class="big" id="big" data-s="idle"><i class="burn"></i><b class="ember"></b><span class="smoke"></span><span class="base"></span></div>
@@ -345,9 +381,17 @@ footer button{font-size:.8rem;padding:2px 8px}
     </aside>
   </main>
 
+  <div class="scrim" id="scrim"></div>
+  <div class="dock" id="dock" role="region" aria-label="快速操作">
+    <div class="dclock"><span id="dState">尚未入殿</span><b id="dClock">25:00</b></div>
+    <button class="primary" id="dMain">合掌入定</button>
+    <button id="dBead">＋念珠</button>
+    <button id="dMore" aria-expanded="false" aria-controls="altar">設定</button>
+  </div>
+
   <footer>
     <span>這是雛型。同一殿裡的人數、香的進度和共修都是即時同步的；你寫的「要做什麼」、計數和收工筆記只存在你自己的瀏覽器。每天共修：09:00 晨坐、13:30 午坐、18:00 晚收，各 25 分鐘，大家一起點、一起收。場景只改變你自己看到的樣子。</span>
-    <span>同步給其他人的只有：在哪一殿、坐著或站著、位置、香還剩多少、衣服和膚色。不會傳送名字，也不會傳送你寫的內容、念珠數或收工筆記。</span>
+    <span>同步給其他人的只有：在哪一殿、坐著或站著、位置、香還剩多少、衣服和膚色。名字只會出現你自己取的暱稱，不會傳送你寫的內容、念珠數或收工筆記。</span>
     <span id="hostLogin" hidden>主持人？ <input type="password" id="hostPass" aria-label="主持人密語" placeholder="主持人密語" autocomplete="off"> <button id="hostGo">確認</button> <span id="hostMsg"></span></span>
     <span>想先試共修？ <button id="btnTest">一分鐘後開一場三分鐘的試玩共修（只有你看得到）</button></span>
   </footer>
@@ -440,6 +484,9 @@ footer button{font-size:.8rem;padding:2px 8px}
   let look = store.get('look', null);
   if (!look || typeof look !== 'object') look = { c: Math.floor(Math.random() * 5), k: 0 };
   look = { c: idx(look.c, 5), k: idx(look.k, 3) };
+  const cleanNick = v => Array.from(String(v || '')).filter(c => !badChar(c)).join('').trim().slice(0, 8);
+  let nick = cleanNick(store.get('nick', ''));
+  let showNames = store.get('showNames', true) !== false;
   function announce(msg) {
     const el = $('#arrive'); el.textContent = msg; el.style.opacity = 1;
     clearTimeout(arriveTimer); arriveTimer = setTimeout(() => { el.style.opacity = 0; }, 5000);
@@ -470,8 +517,9 @@ footer button{font-size:.8rem;padding:2px 8px}
     const s = pr.s === 'sit' || pr.s === 'rest' ? pr.s : 'idle';
     let h = typeof pr.h === 'string' ? pr.h : 'main';
     if (!(presetIds.includes(h) || (h.startsWith('c:') && h.length <= 14))) h = 'main';
-    return { s, st: num(pr.st), un: num(pr.un), h, g: typeof pr.g === 'string' ? pr.g.slice(0, 40) : null, c: idx(pr.c, 5), sk: idx(pr.k, 3), x: fin(pr.x), z: fin(pr.z), r: fin(pr.r), seat: Number.isInteger(pr.seat) && pr.seat >= 0 && pr.seat < SEATS ? pr.seat : -1 };
+    return { s, st: num(pr.st), un: num(pr.un), h, g: typeof pr.g === 'string' ? pr.g.slice(0, 40) : null, c: idx(pr.c, 5), sk: idx(pr.k, 3), n: typeof pr.n === 'string' ? cleanNick(pr.n) : '', x: fin(pr.x), z: fin(pr.z), r: fin(pr.r), seat: Number.isInteger(pr.seat) && pr.seat >= 0 && pr.seat < SEATS ? pr.seat : -1 };
   }
+  const labelFor = it => it.k === 'me' ? (nick || '你') : it.k === 'demo' ? '示範' : (showNames ? it.n || '' : '');
   /* 香燒完但對方還沒更新（例如關掉螢幕）就當作暫歇 */
   const eff = (p, now) => (p.s === 'sit' && now >= p.un) ? 'rest' : p.s;
 
@@ -479,7 +527,9 @@ footer button{font-size:.8rem;padding:2px 8px}
     const inHall = realPeers.map(p => ({ key: 'p:' + p.peer, ...peerState(p) })).filter(p => p.h === hall);
     const list = [{ k: 'me', key: 'me', ...me, c: look.c, sk: look.k }];
     for (const p of inHall) list.push({ k: 'peer', ...p });
-    if (demoOn) demo.forEach((p, i) => list.push({ k: 'demo', key: 'd' + demoGen + ':' + i, ...p }));
+    /* 真人越多，示範同修越少；三個真人以上就全部離場 */
+    const nDemo = demoOn ? Math.max(0, Math.min(demo.length, 6 - inHall.length * 2)) : 0;
+    for (let i = 0; i < nDemo; i++) list.push({ k: 'demo', key: 'd' + demoGen + ':' + i, ...demo[i] });
     hallList = list;
 
     const present = new Set(list.map(x => x.key));
@@ -516,7 +566,7 @@ footer button{font-size:.8rem;padding:2px 8px}
       const s = eff(it, now);
       el.dataset.s = s;
       el.dataset.g = sess && sess.live && s === 'sit' && it.g === sess.key ? '1' : '';
-      el.querySelector('.tag').textContent = it.k === 'me' ? '你' : it.k === 'demo' ? '示範' : '';
+      el.querySelector('.tag').textContent = labelFor(it);
       const left = s === 'sit' && it.un > it.st ? Math.min(1, Math.max(0.02, (it.un - now) / (it.un - it.st))) : 1;
       el.style.setProperty('--left', left.toFixed(4));
     });
@@ -533,10 +583,10 @@ footer button{font-size:.8rem;padding:2px 8px}
     const rest = real.filter(p => eff(p, now) === 'rest').length;
     let txt = '此刻 <b>' + sit + '</b> 人' + (scene === 'temple' ? '靜坐' : '專注');
     if (rest) txt += ' · ' + rest + ' 人暫歇';
-    if (demoOn) txt += '（另有 ' + demo.length + ' 位示範）';
+    if (nDemo) txt += '（另有 ' + nDemo + ' 位示範）';
     $('#chipCount').innerHTML = txt;
     $('#chipCount').prepend(document.createTextNode(hallLabel(hall) + ' · '));
-    $('#lgDemo').hidden = !demoOn;
+    $('#lgDemo').hidden = !nDemo;
     renderHallButtons(now);
   }
 
@@ -649,7 +699,7 @@ footer button{font-size:.8rem;padding:2px 8px}
 
   /* ---------- my altar ---------- */
   function save() { store.set('me', me); store.set('day', day); }
-  function push() { if (room) room.presence({ h: hall, s: me.s, st: me.st, un: me.un, g: me.g || null, c: look.c, k: look.k, ...(w3 ? w3.pose() : {}) }).catch(() => {}); }
+  function push() { if (room) room.presence({ h: hall, s: me.s, st: me.st, un: me.un, g: me.g || null, c: look.c, k: look.k, n: nick || null, ...(w3 ? w3.pose() : {}) }).catch(() => {}); }
 
   /* ---------- 我的模樣 ---------- */
   function renderLook() {
@@ -667,6 +717,13 @@ footer button{font-size:.8rem;padding:2px 8px}
     });
   }
   renderLook();
+  $('#nick').value = nick;
+  let nickT = null;
+  const saveNick = () => { const v = cleanNick($('#nick').value); if (v === nick) return; nick = v; store.set('nick', nick); push(); tick(); };
+  $('#nick').addEventListener('input', () => { clearTimeout(nickT); nickT = setTimeout(saveNick, 700); });
+  $('#nick').addEventListener('change', saveNick);
+  $('#namesToggle').checked = showNames;
+  $('#namesToggle').onchange = e => { showNames = e.target.checked; store.set('showNames', showNames); tick(); };
 
   function renderAltar(now) {
     const big = $('#big');
@@ -687,6 +744,7 @@ footer button{font-size:.8rem;padding:2px 8px}
     $('#intent').disabled = sitting;
     $('#stSticks').textContent = day.sticks; $('#stMins').textContent = day.mins; $('#stBeads').textContent = day.beads;
     document.title = sitting ? fmt(me.un - now) + ' · ' + V.name : V.name;
+    renderDock();
   }
 
   function start(blank) {
@@ -731,6 +789,7 @@ footer button{font-size:.8rem;padding:2px 8px}
     $('#beadOf').textContent = '/ 108 ' + V.beadU;
     $('#beadRound').textContent = rounds > 0 ? '今天已圓滿 ' + rounds + ' ' + V.beadSet + '。' : V.beadHint;
     $('#stBeads').textContent = day.beads;
+    renderDock();
   }
   $('#btnBead').onclick = () => { day.beads++; save(); renderBeads(); audio.click(); if (day.beads % 108 === 0) audio.chime(3); };
   $('#btnUnbead').onclick = () => { if (day.beads > 0) { day.beads--; save(); renderBeads(); } };
@@ -967,6 +1026,28 @@ footer button{font-size:.8rem;padding:2px 8px}
   }
   $('#scene').onchange = e => { scene = SCENES[e.target.value] ? e.target.value : 'temple'; store.set('scene', scene); applyScene(); if (audio.playing()) { audio.startAmb(scene); soundLabel(); } tick(); };
 
+  /* ---------- 手機底部操作列與設定抽屜 ---------- */
+  function renderDock() {
+    const sitting = me.s === 'sit';
+    $('#dState').textContent = $('#stateTxt').textContent;
+    $('#dClock').textContent = $('#clock').textContent;
+    $('#dMain').textContent = sitting ? V.stop : V.start;
+    const n = day.beads % 108 || (day.beads ? 108 : 0);
+    $('#dBead').textContent = '＋' + V.bead + (n ? ' ' + n : '');
+    $('#dBead').setAttribute('aria-label', V.beadBtn + '，目前 ' + n + ' ' + V.beadU);
+  }
+  function sheet(open) {
+    document.body.classList.toggle('sheet', open);
+    $('#dMore').setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) $('#sheetClose').focus(); else $('#dMore').focus();
+  }
+  $('#dMain').onclick = () => { if (me.s === 'sit') { finish(true); tick(); } else start(false); };
+  $('#dBead').onclick = () => $('#btnBead').click();
+  $('#dMore').onclick = () => sheet(!document.body.classList.contains('sheet'));
+  $('#sheetClose').onclick = () => sheet(false);
+  $('#scrim').onclick = () => sheet(false);
+  addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('sheet')) sheet(false); });
+
   /* ---------- controls ---------- */
   document.querySelectorAll('#dur input').forEach(r => {
     r.checked = Number(r.value) === me.dur;
@@ -1174,16 +1255,16 @@ footer button{font-size:.8rem;padding:2px 8px}
     geo.leg.translate(0, -.11, 0);
     const shadowMat = new T.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: .22, depthWrite: false });
     function labelSprite(text, strong) {
-      const c = document.createElement('canvas'); c.width = 128; c.height = 48;
+      const c = document.createElement('canvas'); c.width = 256; c.height = 48;
       const x = c.getContext('2d');
       x.font = (strong ? '700 ' : '400 ') + '28px "Noto Sans TC","Microsoft JhengHei",sans-serif';
       x.textAlign = 'center'; x.textBaseline = 'middle';
       x.fillStyle = strong ? 'rgba(20,28,20,.72)' : 'rgba(20,20,20,.45)';
       const w = x.measureText(text).width + 24;
-      x.beginPath(); x.roundRect ? x.roundRect(64 - w / 2, 6, w, 36, 18) : x.rect(64 - w / 2, 6, w, 36); x.fill();
-      x.fillStyle = '#fff'; x.fillText(text, 64, 25);
+      x.beginPath(); x.roundRect ? x.roundRect(128 - w / 2, 6, w, 36, 18) : x.rect(128 - w / 2, 6, w, 36); x.fill();
+      x.fillStyle = '#fff'; x.fillText(text, 128, 25);
       const s = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(c), depthTest: false, transparent: true }));
-      s.scale.set(.75, .28, 1); s.position.y = 1.72; s.renderOrder = 10;
+      s.scale.set(1.5, .28, 1); s.position.y = 1.72; s.renderOrder = 10;
       return s;
     }
     function makeAvatar(label) {
@@ -1202,10 +1283,9 @@ footer button{font-size:.8rem;padding:2px 8px}
       const ring = add(new T.Mesh(geo.ring, new T.MeshBasicMaterial({ color: 0xffc06a, transparent: true, opacity: 0, depthWrite: false })), root, 0, .03, 0);
       ring.rotation.x = -Math.PI / 2;
       let tag = null;
-      if (label) { tag = labelSprite(label, label === '你'); root.add(tag); }
       hair.visible = sceneName !== 'temple';
       sc.add(root);
-      return { root, bodyG, headG, body, head, hair, legL, legR, handL, handR, ring, tag, pos: root.position, ry: 0, walkT: 0, greetAt: -99, c: -1, k: -1, sitting: false, brain: { seat: -1, tgt: null, wait: 0 } };
+      return { root, bodyG, headG, body, head, hair, legL, legR, handL, handR, ring, tag, label: '', pos: root.position, ry: 0, walkT: 0, greetAt: -99, c: -1, k: -1, sitting: false, brain: { seat: -1, tgt: null, wait: 0 } };
     }
     const WHITE = new T.Color(0xffffff);
     const SKY = [new T.Color(0x9cc7e8), new T.Color(0xf2a25c), new T.Color(0x2e2b4a)], skyC = new T.Color();
@@ -1266,6 +1346,12 @@ footer button{font-size:.8rem;padding:2px 8px}
       });
     }
     function clearPark() { park.birds.forEach(b => sc.remove(b.g)); park.birds = []; park.lamps = []; park.windows = []; park.sun = null; park.p = 0; park.first = true; }
+    function setLabel(av, text, strong) {
+      if (av.label === text) return;
+      av.label = text;
+      if (av.tag) { av.root.remove(av.tag); av.tag.material.map.dispose(); av.tag.material.dispose(); av.tag = null; }
+      if (text) { av.tag = labelSprite(text, strong); av.root.add(av.tag); }
+    }
     function removeAvatar(av) {
       sc.remove(av.root);
       av.ring.material.dispose();
@@ -1288,15 +1374,20 @@ footer button{font-size:.8rem;padding:2px 8px}
       return true;
     }
     function pose(av, mode, t, seatTop) {
-      const sit = mode === 'sit', walk = mode === 'walk';
-      av.sitting = sit;
-      av.bodyG.position.y = sit ? seatTop - .2 : (walk ? Math.abs(Math.sin(av.walkT)) * .05 : 0);
+      const sit = mode === 'sit', walk = mode === 'walk', lie = mode === 'lie';
+      av.sitting = sit || lie;
+      /* 躺平：整個人往後倒，臉朝上，頭朝公園深處、腳朝鏡頭，身體置中在紙箱上 */
+      av.bodyG.rotation.x = lie ? -Math.PI / 2 : 0;
+      av.bodyG.position.set(0, lie ? seatTop + .3 : sit ? seatTop - .2 : (walk ? Math.abs(Math.sin(av.walkT)) * .05 : 0), lie ? .7 : 0);
       const sw = walk ? Math.sin(av.walkT) * .6 : 0;
       av.legL.rotation.set(sit ? -Math.PI / 2 : sw, 0, sit ? .35 : 0);
       av.legR.rotation.set(sit ? -Math.PI / 2 : -sw, 0, sit ? -.35 : 0);
       if (sit) { av.handL.position.set(-.05, .64, .22); av.handR.position.set(.05, .64, .22); }
+      else if (lie) { av.handL.position.set(-.16, .5, .3); av.handR.position.set(.16, .5, .3); }
       else { av.handL.position.set(-.3, .55, walk ? -sw * .2 : 0); av.handR.position.set(.3, .55, walk ? sw * .2 : 0); }
-      av.body.scale.y = sit ? 1 + Math.sin(t * 1.05 + av.c) * .015 : 1;
+      const br = Math.sin(t * 1.05 + av.c) * .015;
+      av.body.scale.set(lie ? 1 + br * 2 : 1, sit ? 1 + br : 1, lie ? 1 + br * 2 : 1);
+      if (av.tag) av.tag.position.y = lie ? 1.0 : 1.72;
       const g = (t - av.greetAt) / 2.4;
       if (g >= 0 && g < 1) {
         const k = Math.sin(g * Math.PI);
@@ -1304,7 +1395,7 @@ footer button{font-size:.8rem;padding:2px 8px}
         av.ring.material.opacity = k * .9;
         av.ring.scale.setScalar(1 + g * .5);
       } else { av.headG.rotation.x = 0; av.ring.material.opacity = 0; }
-      av.root.rotation.y = av.ry;
+      av.root.rotation.y = av.ry + (lie ? Math.PI : 0);
     }
 
     /* ---------- 操作 ---------- */
@@ -1408,12 +1499,13 @@ footer button{font-size:.8rem;padding:2px 8px}
         let av = avs.get(it.key);
         const fresh = !av;
         if (fresh) {
-          av = makeAvatar(it.k === 'me' ? '你' : it.k === 'demo' ? '示範' : '');
+          av = makeAvatar();
           avs.set(it.key, av);
           av.pos.set(clampX((Math.random() - .5) * 3), 0, ROOM.z + .7);
           av.ry = Math.PI;
         }
         paint(av, idx(it.c, 5), idx(it.sk, 3));
+        setLabel(av, labelFor(it), it.k === 'me');
         const s = eff(it, now);
         let mode = 'stand', seat = -1;
 
@@ -1477,13 +1569,20 @@ footer button{font-size:.8rem;padding:2px 8px}
             if (b.tgt) { if (stepToward(av, b.tgt.x, b.tgt.z, dt, 1.6)) mode = 'walk'; else { b.tgt = null; b.wait = now + 3000 + Math.random() * 7000; } }
           }
         }
-        pose(av, mode, t, sk.top);
+        pose(av, mode === 'sit' && sceneName === 'park' ? 'lie' : mode, t, sk.top);
         if (mode === 'sit' && seat >= 0) {
           const left = it.un > it.st ? Math.min(1, Math.max(.03, (it.un - now) / (it.un - it.st))) : 1;
           occ.set(seat, { left, grp: !!(curSess && curSess.live && it.g === curSess.key) });
         }
       }
-      avs.forEach((av, k) => { if (!present.has(k)) { removeAvatar(av); avs.delete(k); } });
+      /* 離開的人從門口走出去，而不是突然消失 */
+      avs.forEach((av, k) => {
+        if (present.has(k)) { av.leaving = 0; return; }
+        if (!av.leaving) { av.leaving = now; av.brain.seat = -1; }
+        const moving = stepToward(av, av.pos.x, ROOM.z + 2.6, dt, 2.6);
+        pose(av, moving ? 'walk' : 'stand', t, sk.top);
+        if (!moving || now - av.leaving > 9000) { removeAvatar(av); avs.delete(k); }
+      });
 
       seats.forEach((st, i) => {
         const o = occ.get(i);

@@ -17,6 +17,10 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="不能說話的線上專注空間：大家一起在殿裡點香、發呆、做完一件事撥一顆珠。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="靜默專注殿">
+<meta property="og:description" content="不能說話的線上專注空間：大家一起在殿裡點香、發呆、做完一件事撥一顆珠。">
+<meta name="theme-color" content="#4C6A47">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
 <script src="config.js"></script>
 ${head.trim()}
