@@ -1532,6 +1532,7 @@ footer button{font-size:.8rem;padding:2px 8px}
           if (fresh) {
             if (seat >= 0) { av.pos.set(SEAT_POS[seat].x, 0, SEAT_POS[seat].z); }
             else autoTgt = { x: clampX((Math.random() - .5) * 4), z: 4 };
+            setTimeout(push, 0);
           }
           if (wasSit && s !== 'sit' && av.sitting) { autoTgt = { x: av.pos.x, z: clampZ(av.pos.z + 1) }; }
           wasSit = s === 'sit';
