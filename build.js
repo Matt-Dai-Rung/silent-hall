@@ -15,7 +15,7 @@ const html = `<!doctype html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="description" content="不能說話的線上專注空間：大家一起在殿裡點香、發呆、做完一件事撥一顆珠。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="靜默專注殿">

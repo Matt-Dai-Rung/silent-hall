@@ -74,6 +74,8 @@ main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:18
 /* iPhone 的狀態列：往下捲時用底色蓋住，內容不會跑到時間和電量底下 */
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
 html,body{overflow-x:clip}
+/* iPhone 連點兩下會放大整頁（例如連按招鴿子），關掉這個手勢；兩指縮放照常可用 */
+html{touch-action:manipulation}
 footer span{overflow-wrap:anywhere}
 .nick{display:flex;align-items:center;gap:6px}
 .nick input[type=text]{width:9em;padding:4px 10px;font-size:.85rem}
