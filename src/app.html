@@ -1524,6 +1524,10 @@ footer button{font-size:.8rem;padding:2px 8px}
         let mode = 'stand', seat = -1;
 
         if (it.k === 'me') {
+          if (s === 'sit' && !(Number.isInteger(me.seat) && me.seat >= 0)) {
+            const p = pickSeat();
+            if (p >= 0) { me.seat = p; save(); push(); }
+          }
           seat = s === 'sit' && Number.isInteger(me.seat) && me.seat >= 0 ? me.seat : -1;
           if (fresh) {
             if (seat >= 0) { av.pos.set(SEAT_POS[seat].x, 0, SEAT_POS[seat].z); }
@@ -1561,9 +1565,9 @@ footer button{font-size:.8rem;padding:2px 8px}
           if (tx !== null && tz !== null) {
             const far = Math.hypot(tx - av.pos.x, tz - av.pos.z) > 6;
             if (stepToward(av, clampX(tx), clampZ(tz), dt, far ? 6 : 3.4)) mode = 'walk';
-            else if (seat >= 0) { mode = 'sit'; turnTo(av, Math.PI, dt); }
+            else if (s === 'sit') { mode = 'sit'; turnTo(av, Math.PI, dt); }
             else if (fin(it.r) !== null) turnTo(av, it.r, dt);
-          }
+          } else if (s === 'sit') mode = 'sit';
         } else {
           const b = av.brain;
           if (s === 'sit') {
