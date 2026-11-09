@@ -118,6 +118,9 @@ section,aside{min-width:0}
 .halls button{border-radius:999px;padding:4px 12px;font-size:.85rem;font-variant-numeric:tabular-nums}
 .halls button[aria-current="true"]{border-color:var(--moss);color:var(--moss);font-weight:700;background:color-mix(in srgb,var(--moss) 8%,var(--bg))}
 .halls button span{color:var(--muted);font-weight:400;margin-left:4px}
+.roster{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:.85rem;color:var(--muted);line-height:1.5}
+.roster b{color:var(--ink,inherit);font-weight:600}
+.roster button{padding:2px 10px;font-size:.8rem;border-radius:999px}
 .custom{display:flex;gap:6px;align-items:center}
 .custom input[type=text]{width:9em;padding:4px 10px;border-radius:999px;font-size:.85rem}
 .custom button{border-radius:999px;padding:4px 12px;font-size:.85rem}
@@ -291,6 +294,7 @@ footer button{font-size:.8rem;padding:2px 8px}
         <button id="btnGreet">合掌致意</button>
       </div>
       <div class="halls" id="halls" role="group" aria-label="選擇殿"></div>
+      <div class="roster" aria-live="polite"><span id="roster"></span><button type="button" class="quiet" id="btnInvite">複製這一殿的連結</button></div>
       <form class="custom" id="customForm">
         <input type="text" id="customName" maxlength="12" placeholder="自訂殿名" aria-label="自訂殿名">
         <button type="submit">進入</button>
@@ -457,7 +461,14 @@ footer button{font-size:.8rem;padding:2px 8px}
   const badChar = c => { const n = c.codePointAt(0); return n < 32 || (n >= 127 && n <= 159) || (n >= 0x200b && n <= 0x200f) || (n >= 0x2028 && n <= 0x202e) || (n >= 0x2060 && n <= 0x206f) || n === 0xfeff; };
   const cleanName = s => Array.from(String(s || '')).filter(c => !badChar(c)).join('').trim().slice(0, 12);
   const hallLabel = h => { const p = HALLS.find(x => x[0] === h); return p ? p[1] : (h.startsWith('c:') ? h.slice(2) : '全公司'); };
-  const fromHash = () => { const t = (location.hash || '').slice(1); return presetIds.includes(t) ? t : null; };
+  const fromHash = () => {
+    let t = (location.hash || '').slice(1);
+    try { t = decodeURIComponent(t); } catch (e) {}
+    if (presetIds.includes(t)) return t;
+    if (t.startsWith('c:')) { const n = cleanName(t.slice(2)); return n ? 'c:' + n : null; }
+    return null;
+  };
+  const hallHash = h => '#' + (presetIds.includes(h) ? h : 'c:' + encodeURIComponent(h.slice(2)));
   let hall = fromHash() || store.get('hall', 'main');
   if (typeof hall !== 'string' || !(presetIds.includes(hall) || (hall.startsWith('c:') && cleanName(hall.slice(2))))) hall = 'main';
 
@@ -530,7 +541,8 @@ footer button{font-size:.8rem;padding:2px 8px}
     if (!(presetIds.includes(h) || (h.startsWith('c:') && h.length <= 14))) h = 'main';
     return { s, st: num(pr.st), un: num(pr.un), h, g: typeof pr.g === 'string' ? pr.g.slice(0, 40) : null, c: idx(pr.c, 5), sk: idx(pr.k, 3), n: typeof pr.n === 'string' ? cleanNick(pr.n) : '', x: fin(pr.x), z: fin(pr.z), r: fin(pr.r), seat: Number.isInteger(pr.seat) && pr.seat >= 0 && pr.seat < SEATS ? pr.seat : -1 };
   }
-  const labelFor = it => it.k === 'me' ? (nick || '你') : it.k === 'demo' ? '示範' : (showNames ? it.n || '' : '');
+  const peerWord = () => (PEER_WORD[scene] || PEER_WORD.temple)[0];
+  const labelFor = it => it.k === 'me' ? (nick || '你') : it.k === 'demo' ? '示範' : (showNames ? it.n || peerWord() : '');
   /* 香燒完但對方還沒更新（例如關掉螢幕）就當作暫歇 */
   const eff = (p, now) => (p.s === 'sit' && now >= p.un) ? 'rest' : p.s;
 
@@ -542,6 +554,7 @@ footer button{font-size:.8rem;padding:2px 8px}
     const nDemo = demoOn ? Math.max(0, Math.min(demo.length, 6 - inHall.length * 2)) : 0;
     for (let i = 0; i < nDemo; i++) list.push({ k: 'demo', key: 'd' + demoGen + ':' + i, ...demo[i] });
     hallList = list;
+    renderRoster(inHall);
 
     const present = new Set(list.map(x => x.key));
     for (const k of [...seatOf.keys()]) if (!present.has(k)) seatOf.delete(k);
@@ -602,6 +615,28 @@ footer button{font-size:.8rem;padding:2px 8px}
   }
 
   let hallSig = '';
+  let rosterSig = '';
+  function renderRoster(inHall) {
+    const named = inHall.map(p => p.n).filter(Boolean);
+    const anon = inHall.length - named.length;
+    const sig = hall + '|' + named.join(',') + '|' + anon + '|' + showNames + '|' + scene;
+    if (sig === rosterSig) return;
+    rosterSig = sig;
+    const el = $('#roster'); el.textContent = '';
+    const add = (t, bold) => { const s = document.createElement(bold ? 'b' : 'span'); s.textContent = t; el.appendChild(s); };
+    add('你在「'); add(hallLabel(hall), true); add('」');
+    if (!inHall.length) { add('，目前只有你一個人'); return; }
+    add('，一起的有 ');
+    const parts = showNames ? named.slice(0, 8) : [];
+    if (parts.length) add(parts.join('、'), true);
+    const rest = inHall.length - parts.length;
+    if (rest > 0) add((parts.length ? ' 和另外 ' : '') + rest + ' 位' + (showNames && !parts.length ? '（還沒取暱稱）' : ''));
+  }
+  $('#btnInvite').onclick = () => {
+    const url = location.href.split('#')[0] + hallHash(hall);
+    const done = () => { $('#btnInvite').textContent = '已複製，貼給同事就會進同一殿'; setTimeout(() => { $('#btnInvite').textContent = '複製這一殿的連結'; }, 2500); };
+    try { navigator.clipboard.writeText(url).then(done, () => prompt('複製這個連結：', url)); } catch (e) { prompt('複製這個連結：', url); }
+  };
   function renderHallButtons(now) {
     const all = [{ h: hall }, ...realPeers.map(peerState)];
     const counts = {};
@@ -625,7 +660,7 @@ footer button{font-size:.8rem;padding:2px 8px}
   }
   function switchHall(h) {
     hall = h; store.set('hall', hall);
-    if (presetIds.includes(h)) { try { history.replaceState(null, '', '#' + h); } catch (e) {} }
+    try { history.replaceState(null, '', hallHash(h)); } catch (e) {}
     demoGen++; demo = makeDemo(); hallSig = ''; quietUntil = Date.now() + 2000; push(); tick();
   }
   $('#customForm').addEventListener('submit', e => {
